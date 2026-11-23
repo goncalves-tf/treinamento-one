@@ -4,669 +4,485 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Tastefy One na Prática</title>
-<meta name="description" content="Treinamento de franqueados: o dia da loja no Tastefy One em 6 botões.">
+<meta name="description" content="Treinamento de franqueados: como operar a loja e o que o dono faz no Tastefy One.">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
 <style>
 :root{
-  --y:#FFCC00; --o:#FF6100; --k:#0b0b0b; --w:#fff; --g:#1c1c1c; --g2:#2a2a2a; --mut:#9a9a9a; --ok:#18a957;
+  --y:#FFCC00; --o:#FF6100; --k:#111; --w:#fff; --cream:#FFF8E1; --line:#111; --mut:#6b6b6b; --ok:#16a34a;
   --ease:cubic-bezier(.2,.8,.2,1);
+  --font:"Montserrat Alternates",system-ui,"Segoe UI",sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;background:var(--k);color:var(--w);overflow:hidden;
-  font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased}
-.deck{position:fixed;inset:0}
-.slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  padding:clamp(16px,4vw,64px);opacity:0;pointer-events:none;transform:translateY(24px) scale(.985);
-  transition:opacity .5s var(--ease),transform .6s var(--ease)}
+html,body{height:100%;background:var(--w);color:var(--k);overflow:hidden;font-family:var(--font);-webkit-font-smoothing:antialiased}
+.topbar{position:fixed;left:0;right:0;top:0;height:54px;background:var(--y);border-bottom:3px solid var(--line);display:flex;align-items:center;gap:14px;padding:0 18px;z-index:30}
+.topbar .marca{font-weight:900;font-size:18px;letter-spacing:.02em}
+.topbar .sep{width:2px;height:26px;background:var(--line);opacity:.5}
+.topbar .sec{font-weight:800;font-size:14px;text-transform:uppercase}
+.topbar .sp{flex:1}
+.topbar .pg{background:var(--k);color:var(--y);border-radius:999px;padding:5px 12px;font-weight:800;font-size:13px}
+.bar{position:fixed;left:0;top:54px;height:4px;background:var(--o);z-index:31;transition:width .5s var(--ease)}
+.deck{position:fixed;inset:57px 0 0 0}
+.slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:clamp(12px,2.4vw,36px) clamp(14px,3vw,48px);
+  opacity:0;pointer-events:none;transform:translateY(20px);transition:opacity .45s var(--ease),transform .55s var(--ease)}
 .slide.on{opacity:1;pointer-events:auto;transform:none}
-.in>*{opacity:0;transform:translateY(18px);transition:opacity .5s var(--ease),transform .6s var(--ease)}
+.in>*{opacity:0;transform:translateY(14px);transition:opacity .45s var(--ease),transform .55s var(--ease)}
 .slide.on .in>*{opacity:1;transform:none}
-.slide.on .in>*:nth-child(2){transition-delay:.12s}.slide.on .in>*:nth-child(3){transition-delay:.24s}
-.slide.on .in>*:nth-child(4){transition-delay:.36s}.slide.on .in>*:nth-child(5){transition-delay:.48s}
-h1,h2{font-weight:900;letter-spacing:-.02em;line-height:.95;text-transform:uppercase}
-h1{font-size:clamp(48px,10vw,150px)}
-h2{font-size:clamp(34px,5.4vw,84px)}
-.y{color:var(--y)}.o{color:var(--o)}
-.kicker{font-weight:800;font-size:clamp(12px,1.2vw,16px);letter-spacing:.18em;text-transform:uppercase;color:var(--mut)}
-.big{font-size:clamp(18px,2vw,28px);font-weight:700;line-height:1.25}
-.num{font-variant-numeric:tabular-nums}
-
-/* progresso */
-.bar{position:fixed;left:0;top:0;height:5px;background:var(--y);z-index:20;transition:width .5s var(--ease)}
-.pager{position:fixed;right:18px;bottom:14px;z-index:20;font:800 13px/1 system-ui;color:var(--mut);letter-spacing:.1em}
-.hint{position:fixed;left:18px;bottom:14px;z-index:20;font:600 12px/1 system-ui;color:#555}
-@media (max-width:700px){.hint{display:none}}
+.slide.on .in>*:nth-child(2){transition-delay:.1s}.slide.on .in>*:nth-child(3){transition-delay:.2s}.slide.on .in>*:nth-child(4){transition-delay:.3s}.slide.on .in>*:nth-child(5){transition-delay:.4s}
+h1,h2{font-weight:900;letter-spacing:-.01em;line-height:1;text-transform:uppercase}
+h1{font-size:clamp(40px,7.6vw,118px)}
+h2{font-size:clamp(28px,4.4vw,66px)}
+.hl-y{background:var(--y);padding:0 .15em;border-radius:.12em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.kicker{font-weight:800;font-size:clamp(11px,1.1vw,15px);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.card{background:var(--w);border:3px solid var(--line);border-radius:20px;box-shadow:6px 6px 0 var(--line)}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--y);border:3px solid var(--line);border-radius:999px;padding:8px 18px;font-weight:900;text-transform:uppercase;box-shadow:3px 3px 0 var(--line)}
 
 /* capa */
-.capa{flex-direction:column;text-align:center;gap:clamp(16px,3vw,32px)}
-.logo{display:inline-flex;align-items:center;gap:.25em;font-weight:900;font-size:clamp(20px,2.4vw,34px);text-transform:uppercase;letter-spacing:.04em}
-.logo b{background:var(--y);color:var(--k);padding:.1em .35em;border:3px solid var(--y)}
-.blocks{position:absolute;inset:0;overflow:hidden;z-index:-1}
-.blocks i{position:absolute;width:14vmin;height:14vmin;border:3px solid var(--y);opacity:.12;animation:drift 14s linear infinite}
-@keyframes drift{from{transform:translateY(110vh) rotate(0)}to{transform:translateY(-30vh) rotate(180deg)}}
-.seis{display:flex;gap:clamp(6px,1vw,14px);justify-content:center;flex-wrap:wrap}
-.seis span{width:clamp(36px,5vw,64px);height:clamp(36px,5vw,64px);border:3px solid var(--y);display:grid;place-items:center;
-  font-weight:900;font-size:clamp(16px,2vw,26px);color:var(--y);transform:scale(0);transition:transform .5s var(--ease)}
-.slide.on .seis span{transform:scale(1)}
-.seis span.fill{background:var(--y);color:var(--k)}
+.capa{flex-direction:column;text-align:center;background:radial-gradient(60% 70% at 50% 40%,var(--cream),var(--w))}
+.capa .in{display:flex;flex-direction:column;align-items:center;gap:clamp(14px,2.6vw,28px)}
+.seis{display:flex;gap:clamp(6px,1vw,12px);flex-wrap:wrap;justify-content:center}
+.seis span{border:3px solid var(--line);border-radius:999px;padding:.35em .9em;font-weight:800;font-size:clamp(12px,1.3vw,17px);background:var(--w);box-shadow:3px 3px 0 var(--line);transform:scale(.6);opacity:0;transition:transform .4s var(--ease),opacity .4s,background .3s}
+.slide.on .seis span{transform:none;opacity:1}
+.seis span.on{background:var(--y)}
+.duas{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.duas .card{padding:12px 20px;font-weight:800;font-size:clamp(13px,1.4vw,18px);display:flex;align-items:center;gap:10px}
 
-/* calor */
-.wrap{width:min(1280px,100%)}
-.calor-grid{display:grid;grid-template-columns:clamp(34px,4vw,56px) repeat(15,1fr);gap:clamp(2px,.4vw,5px);margin-top:clamp(14px,2vw,26px)}
-.calor-grid .lab{font:800 clamp(9px,1vw,13px)/1 system-ui;color:var(--mut);display:flex;align-items:center}
-.calor-grid .hl{justify-content:center}
-.cell{aspect-ratio:1.5;border-radius:3px;background:#161616;transform:scale(.2);opacity:0;
-  transition:transform .45s var(--ease),opacity .45s,background .45s}
-.slide.on .cell{transform:scale(1);opacity:1}
-.cell.pico{outline:3px solid var(--w);outline-offset:2px;animation:pulse 1.4s ease-in-out infinite;animation-delay:2.2s}
-@keyframes pulse{50%{outline-color:var(--y);transform:scale(1.18)}}
-.calor-top{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
-.calor-facts{display:flex;gap:clamp(16px,3vw,48px);flex-wrap:wrap;margin-top:clamp(14px,2vw,24px)}
-.fact b{display:block;font-size:clamp(30px,4.4vw,64px);font-weight:900;color:var(--y);line-height:1}
-.fact b span{display:inline;font:inherit;color:inherit}
-.fact>span{font-weight:700;font-size:clamp(12px,1.2vw,16px);color:#ccc}
-.pico-tag{font-weight:900;background:var(--w);color:var(--k);padding:.3em .6em;font-size:clamp(13px,1.3vw,18px)}
-
-/* ranking */
-.rank{display:flex;flex-direction:column;gap:clamp(8px,1.2vw,14px);margin-top:clamp(16px,2.4vw,30px)}
-.row{display:grid;grid-template-columns:clamp(30px,3vw,44px) minmax(120px,280px) 1fr clamp(60px,7vw,100px);align-items:center;gap:clamp(8px,1.2vw,16px)}
-.row .ic{font-size:clamp(20px,2.4vw,32px);text-align:center}
-.row .nm{font-weight:800;font-size:clamp(13px,1.5vw,21px)}
-.row .tr{height:clamp(16px,2.2vw,30px);background:#161616;position:relative;overflow:hidden}
-.row .tr i{position:absolute;inset:0 auto 0 0;width:0;background:var(--y);transition:width 1.1s var(--ease)}
-.row:first-child .tr i{background:var(--o)}
-.row .vl{font-weight:900;font-size:clamp(16px,2vw,28px);text-align:right}
-@media (max-width:700px){.row{grid-template-columns:28px 1fr 64px}.row .tr{grid-column:2/4;grid-row:2}}
-
-/* trilha do dia */
-.trilha{display:grid;grid-template-columns:repeat(6,1fr);gap:clamp(8px,1.4vw,20px);margin-top:clamp(24px,4vw,56px);position:relative}
-.trilha:before{content:"";position:absolute;left:8%;right:8%;top:clamp(30px,3.6vw,52px);height:5px;background:#222}
-.trilha:after{content:"";position:absolute;left:8%;top:clamp(30px,3.6vw,52px);height:5px;width:0;background:var(--y);transition:width 2.4s var(--ease) .3s}
-.slide.on .trilha:after{width:84%}
-.passo{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;position:relative;z-index:1}
-.passo .bola{width:clamp(60px,7.2vw,104px);height:clamp(60px,7.2vw,104px);border-radius:50%;background:var(--k);border:4px solid #333;
-  display:grid;place-items:center;font-size:clamp(24px,3vw,44px);transition:border-color .4s,background .4s,transform .4s var(--ease)}
-.slide.on .passo .bola{border-color:var(--y)}
-.passo b{font-weight:900;text-transform:uppercase;font-size:clamp(11px,1.4vw,20px)}
-.passo small{color:var(--mut);font-weight:700;font-size:clamp(10px,1vw,14px)}
-@media (max-width:700px){.trilha{grid-template-columns:repeat(3,1fr);row-gap:28px}.trilha:before,.trilha:after{display:none}}
+/* trilha */
+.wrap{width:min(1240px,100%)}
+.trilha{display:grid;grid-template-columns:repeat(6,1fr);gap:clamp(8px,1.4vw,18px);margin-top:clamp(20px,3.4vw,46px)}
+.passo{padding:clamp(12px,1.4vw,20px) 10px;text-align:center;display:flex;flex-direction:column;gap:8px;align-items:center;transform:translateY(16px);opacity:0;transition:transform .45s var(--ease),opacity .45s}
+.slide.on .passo{transform:none;opacity:1}
+.passo .n{width:2em;height:2em;border-radius:50%;background:var(--y);border:3px solid var(--line);display:grid;place-items:center;font-weight:900}
+.passo b{font-weight:900;text-transform:uppercase;font-size:clamp(11px,1.3vw,18px)}
+.passo small{color:var(--mut);font-weight:600;font-size:clamp(10px,.95vw,13px)}
+@media (max-width:760px){.trilha{grid-template-columns:repeat(2,1fr)}}
 
 /* demo */
-.demo{display:grid;grid-template-columns:minmax(260px,.8fr) 1.2fr;gap:clamp(20px,4vw,64px);align-items:center;width:min(1320px,100%)}
-.demo .lado{display:flex;flex-direction:column;gap:clamp(12px,1.8vw,22px)}
-.badge{display:inline-flex;align-items:center;gap:10px;font-weight:900;text-transform:uppercase;font-size:clamp(12px,1.2vw,16px);letter-spacing:.08em}
-.badge i{font-style:normal;background:var(--y);color:var(--k);width:1.9em;height:1.9em;display:grid;place-items:center;font-size:1.2em}
-.caminho{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-weight:800;font-size:clamp(12px,1.2vw,15px)}
-.caminho span{border:2px solid #444;padding:.25em .6em;color:#ddd}
-.caminho em{color:var(--mut);font-style:normal}
-.caminho span:last-child{border-color:var(--y);color:var(--y)}
-.etapas{display:flex;flex-direction:column;gap:8px;counter-reset:e}
-.etapas li{list-style:none;display:flex;align-items:center;gap:12px;font-weight:800;font-size:clamp(14px,1.5vw,20px);color:#666;transition:color .3s}
-.etapas li:before{counter-increment:e;content:counter(e);width:1.8em;height:1.8em;border:3px solid #444;display:grid;place-items:center;font-weight:900;flex:none;transition:all .3s}
-.etapas li.on{color:var(--w)}
-.etapas li.on:before{background:var(--y);border-color:var(--y);color:var(--k)}
-.etapas li.ok{color:#bbb}.etapas li.ok:before{border-color:var(--y);color:var(--y)}
-.dica{display:flex;gap:12px;align-items:flex-start;border-left:6px solid var(--o);background:#151515;padding:12px 16px;font-weight:800;font-size:clamp(14px,1.5vw,20px)}
-.dica:before{content:"!";background:var(--o);color:var(--k);width:1.5em;height:1.5em;display:grid;place-items:center;flex:none;font-weight:900}
-
-/* janela do One */
-.tela{position:relative;background:var(--w);color:var(--k);border:3px solid var(--k);outline:3px solid var(--y);
-  box-shadow:14px 14px 0 rgba(255,204,0,.18);min-height:clamp(300px,34vw,470px);display:flex;flex-direction:column;overflow:hidden;font-size:clamp(11px,1.05vw,15px)}
-.topo{background:var(--k);color:var(--w);display:flex;align-items:center;gap:10px;padding:8px 12px;font-weight:900;font-size:.9em;text-transform:uppercase}
-.topo .l{background:var(--y);color:var(--k);padding:1px 6px}
-.topo .sp{flex:1}
-.chip{font-size:.75em;padding:2px 6px;border:2px solid var(--ok);color:#6ee7a3}
-.chip.c{border-color:var(--y);color:var(--y)}
-.corpo{flex:1;position:relative;padding:clamp(10px,1.4vw,18px);display:flex;flex-direction:column}
-.fase{position:absolute;inset:clamp(10px,1.4vw,18px);display:flex;flex-direction:column;opacity:0;transform:translateX(30px);transition:opacity .35s,transform .45s var(--ease);pointer-events:none}
-.fase.on{opacity:1;transform:none;transition-delay:.12s}
-.fase:not(.on){transition-duration:.12s}
-.centro{align-items:center;justify-content:center;gap:12px}
-.ttl{font-weight:900;text-transform:uppercase;font-size:1.1em}
-.campo{width:min(300px,90%);border:3px solid var(--k);padding:8px 10px;font-weight:800;min-height:2.6em;display:flex;flex-direction:column}
-.campo small{font-size:.7em;color:#666;text-transform:uppercase;font-weight:800}
-.campo .v{min-height:1.2em}
-.campo .v:after{content:"";display:inline-block;width:2px;height:1em;background:var(--k);margin-left:2px;vertical-align:-2px;animation:pisca 1s steps(1) infinite;opacity:0}
-.campo.foco{outline:3px solid var(--y)}
-.campo.foco .v:after{opacity:1}
-@keyframes pisca{50%{opacity:0}}
-.btn{background:var(--y);border:3px solid var(--k);font-weight:900;text-transform:uppercase;padding:9px 16px;box-shadow:4px 4px 0 var(--k);transition:transform .12s,box-shadow .12s;text-align:center}
-.btn.press{transform:translate(4px,4px);box-shadow:0 0 0 var(--k)}
-.btn.k{background:var(--k);color:var(--y)}
-.btn.w{background:var(--w)}
-.okbox{border:3px solid var(--ok);background:#e9f9f0;color:#0d6b37;padding:16px 22px;text-align:center;font-weight:900;text-transform:uppercase;transform:scale(.7);opacity:0;transition:all .45s var(--ease)}
-.fase.on .okbox{transform:none;opacity:1}
-.okbox small{display:block;text-transform:none;font-weight:700;margin-top:4px}
-
-/* caixa */
-.pdv{display:grid;grid-template-columns:1.5fr 1fr;gap:12px;height:100%}
-.prods{display:flex;flex-direction:column;gap:8px}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.card{border:3px solid var(--k);padding:8px;font-weight:800;min-height:4.6em;display:flex;flex-direction:column;justify-content:space-between;transition:opacity .3s,transform .2s,background .2s}
-.card .p{font-weight:900}
-.card.dim{opacity:.18}
-.card.hit{background:var(--y);transform:scale(.96)}
-.carrinho{border:3px solid var(--k);display:flex;flex-direction:column}
-.carrinho .h{background:var(--k);color:var(--y);font-weight:900;text-transform:uppercase;padding:6px 8px;font-size:.85em}
-.itens{flex:1;padding:6px 8px;display:flex;flex-direction:column;gap:6px}
-.item{display:flex;justify-content:space-between;align-items:center;font-weight:800;border-bottom:2px dashed #ccc;padding-bottom:4px;animation:entra .35s var(--ease)}
-@keyframes entra{from{opacity:0;transform:translateX(20px)}}
-.qt{display:inline-flex;align-items:center;gap:6px}
-.qt i{font-style:normal;border:2px solid var(--k);width:1.4em;height:1.4em;display:grid;place-items:center;font-weight:900}
-.total{border-top:3px solid var(--k);padding:8px;display:flex;justify-content:space-between;font-weight:900;font-size:1.25em}
-.total .v{transition:color .3s}
-.total .v.flash{color:var(--o)}
-
-/* pagamento */
-.pag{display:grid;grid-template-columns:1fr 1fr;gap:14px;height:100%}
-.formas{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-content:start}
-.forma{border:3px solid var(--k);padding:10px;font-weight:900;text-transform:uppercase;position:relative;overflow:hidden;transition:background .2s}
-.forma small{display:block;font-size:.7em;color:#555;font-weight:800;text-transform:none;margin-top:4px}
-.forma .uso{position:absolute;left:0;bottom:0;height:5px;background:var(--o);width:0;transition:width 1s var(--ease)}
-.forma.sel{background:var(--y)}
-.resumo{border:3px solid var(--k);padding:12px;display:flex;flex-direction:column;gap:10px;font-weight:800}
-.linha{display:flex;justify-content:space-between}
-.troco{background:var(--k);color:var(--y);padding:10px;font-weight:900;font-size:1.4em;display:flex;justify-content:space-between;transform:scaleY(0);transform-origin:top;transition:transform .4s var(--ease)}
-.troco.on{transform:none}
-
-/* monitor */
-.kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;flex:1}
-.col{background:#f2f2f2;border:3px solid var(--k);display:flex;flex-direction:column}
-.col .h{background:var(--k);color:var(--w);font-weight:900;text-transform:uppercase;font-size:.75em;padding:5px 6px;display:flex;justify-content:space-between}
-.col .h b{color:var(--y)}
-.col .lista{flex:1;padding:6px;display:flex;flex-direction:column;gap:6px}
-.ped{background:var(--w);border:3px solid var(--k);padding:6px;font-weight:800;font-size:.85em;transition:transform .5s var(--ease),opacity .3s}
-.ped .src{display:inline-block;font-size:.75em;font-weight:900;padding:0 4px;color:var(--w);background:#ea1d2c}
-.ped .src.tot{background:var(--k);color:var(--y)}
-.ped.novo{animation:toca .5s ease-in-out 3}
-@keyframes toca{25%{transform:rotate(-3deg)}75%{transform:rotate(3deg)}}
-
-/* fechamento */
-.conta{display:flex;flex-direction:column;gap:8px;width:min(420px,96%);margin:0 auto;font-weight:800}
-.conta .linha{border-bottom:2px dashed #ccc;padding:4px 0;opacity:0;transform:translateX(-16px);transition:all .4s var(--ease)}
-.conta .linha.on{opacity:1;transform:none}
-.conta .res{border:3px solid var(--k);padding:8px;font-weight:900;font-size:1.2em}
-.dif{font-weight:900;text-transform:uppercase;padding:10px;text-align:center;border:3px solid var(--ok);background:#e9f9f0;color:#0d6b37;opacity:0;transform:scale(.8);transition:all .45s var(--ease)}
-.dif.on{opacity:1;transform:none}
-
-/* cursor */
-.cur{position:absolute;left:50%;top:60%;width:26px;height:26px;z-index:30;pointer-events:none;transition:left .7s var(--ease),top .7s var(--ease);filter:drop-shadow(2px 3px 0 rgba(0,0,0,.35))}
-.cur:after{content:"";position:absolute;left:-14px;top:-14px;width:28px;height:28px;border-radius:50%;border:3px solid var(--o);opacity:0;transform:scale(.3)}
-.cur.clk:after{animation:onda .5s ease-out}
-@keyframes onda{0%{opacity:1;transform:scale(.3)}100%{opacity:0;transform:scale(1.6)}}
+.demo{width:min(1500px,100%);height:100%;display:flex;flex-direction:column;gap:clamp(8px,1.2vw,14px)}
+.cab{display:flex;align-items:center;gap:clamp(10px,1.6vw,22px);flex-wrap:wrap}
+.badge{width:clamp(38px,3.6vw,54px);height:clamp(38px,3.6vw,54px);border-radius:50%;background:var(--y);border:3px solid var(--line);display:grid;place-items:center;font-weight:900;font-size:clamp(16px,1.8vw,24px);box-shadow:3px 3px 0 var(--line);flex:none}
+.badge.dono{background:var(--k);color:var(--y)}
+.cab h2{font-size:clamp(22px,3vw,44px)}
+.cab .sp{flex:1}
+.etapas{display:flex;gap:8px;flex-wrap:wrap;list-style:none;counter-reset:e}
+.etapas li{display:flex;align-items:center;gap:8px;border:2px solid #ccc;border-radius:999px;padding:5px 12px 5px 6px;font-weight:700;font-size:clamp(11px,1.05vw,14px);color:#888;transition:all .3s;background:var(--w)}
+.etapas li:before{counter-increment:e;content:counter(e);width:1.6em;height:1.6em;border-radius:50%;border:2px solid #ccc;display:grid;place-items:center;font-weight:900;font-size:.9em}
+.etapas li.on{border-color:var(--line);color:var(--k);background:var(--y);box-shadow:2px 2px 0 var(--line)}
+.etapas li.on:before{border-color:var(--line);background:var(--w)}
+.etapas li.ok{border-color:var(--line);color:var(--k)}
+.etapas li.ok:before{content:"✓";border-color:var(--ok);color:var(--ok)}
+.palco{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
+.shot{position:relative;aspect-ratio:1536/674;width:min(100%, calc((100vh - 57px - 170px) * 2.279));border:3px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:8px 8px 0 var(--line);background:#fff}
+.cam{position:absolute;inset:0;transition:transform .8s var(--ease);transform-origin:50% 50%}
+.cam img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s}
+.cam img.on{opacity:1}
+.spot{position:absolute;border:4px solid var(--o);border-radius:12px;box-shadow:0 0 0 9999px rgba(17,17,17,.42);opacity:0;transition:all .55s var(--ease);pointer-events:none}
+.spot.on{opacity:1}
+.cur{position:absolute;width:3.4%;min-width:22px;z-index:5;left:60%;top:70%;transition:left .75s var(--ease),top .75s var(--ease);pointer-events:none;filter:drop-shadow(2px 3px 0 rgba(0,0,0,.35))}
+.cur svg{width:100%;height:auto;display:block}
+.cur:after{content:"";position:absolute;left:-60%;top:-60%;width:120%;aspect-ratio:1;border-radius:50%;border:4px solid var(--o);opacity:0}
+.cur.clk:after{animation:onda .55s ease-out}
+@keyframes onda{0%{opacity:1;transform:scale(.3)}100%{opacity:0;transform:scale(1.8)}}
+.cap{position:absolute;z-index:6;background:var(--k);color:var(--y);font-weight:800;border-radius:12px;padding:.45em .8em;font-size:clamp(12px,1.25vw,18px);white-space:nowrap;opacity:0;transform:translateY(8px);transition:opacity .3s,transform .4s var(--ease),left .55s var(--ease),top .55s var(--ease);pointer-events:none;box-shadow:3px 3px 0 var(--o)}
+.cap.on{opacity:1;transform:none}
+.dica{display:inline-flex;align-items:center;gap:10px;align-self:center;background:var(--cream);border:2px solid var(--line);border-radius:999px;padding:7px 16px 7px 8px;font-weight:800;font-size:clamp(12px,1.25vw,17px)}
+.dica i{font-style:normal;background:var(--o);color:var(--w);width:1.6em;height:1.6em;border-radius:50%;display:grid;place-items:center;font-weight:900}
 
 /* regras */
-.regras{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,2vw,28px);margin-top:clamp(20px,3vw,40px)}
-.regra{border:4px solid var(--y);padding:clamp(16px,2.4vw,32px);display:flex;flex-direction:column;gap:12px;min-height:clamp(180px,22vw,320px);transform:rotate(0);transition:transform .3s}
-.regra .ic{font-size:clamp(40px,5vw,76px);line-height:1}
-.regra b{font-weight:900;text-transform:uppercase;font-size:clamp(20px,2.4vw,36px);line-height:1}
-.regra span{color:#bbb;font-weight:700;font-size:clamp(13px,1.3vw,18px)}
-.regra.no{border-color:var(--o)}
-.regra.no b{color:var(--o)}
-kbd{display:inline-block;border:2px solid var(--w);border-bottom-width:5px;padding:2px 8px;font:900 .8em system-ui;margin:0 2px}
+.regras{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,2vw,26px);margin-top:clamp(18px,2.6vw,34px)}
+.regra{padding:clamp(16px,2.2vw,30px);display:flex;flex-direction:column;gap:10px;min-height:clamp(170px,20vw,290px)}
+.regra .ic{font-size:clamp(36px,4.4vw,64px);line-height:1}
+.regra b{font-weight:900;text-transform:uppercase;font-size:clamp(18px,2.2vw,32px);line-height:1.05}
+.regra span{color:#444;font-weight:600;font-size:clamp(12px,1.25vw,17px)}
+.regra.no{background:#FFF0E6}
+kbd{display:inline-block;border:2px solid var(--line);border-bottom-width:5px;border-radius:8px;padding:2px 9px;font:800 .9em var(--font);background:var(--w);margin:0 2px}
 @media (max-width:760px){.regras{grid-template-columns:1fr}.regra{min-height:0}}
 
-/* dono */
-.dono{display:grid;grid-template-columns:minmax(200px,300px) 1fr;gap:clamp(16px,3vw,40px);margin-top:clamp(16px,2.6vw,32px);align-items:start}
-.menu{border:3px solid var(--y);background:#111}
-.menu .mh{background:var(--y);color:var(--k);font-weight:900;text-transform:uppercase;padding:8px 12px}
-.menu .gr{padding:8px 12px 2px;font-weight:900;font-size:.75em;letter-spacing:.14em;color:var(--mut);text-transform:uppercase}
-.menu .it{padding:7px 12px 7px 20px;font-weight:800;font-size:clamp(13px,1.3vw,17px);color:#aaa;transition:all .3s;border-left:5px solid transparent}
-.menu .it.on{background:#222;color:var(--y);border-left-color:var(--y)}
-.funcs{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(8px,1.2vw,14px)}
-.fn{border:3px solid #333;padding:clamp(12px,1.4vw,18px);display:flex;gap:14px;align-items:center;transition:all .35s var(--ease)}
-.fn .ic{font-size:clamp(24px,2.6vw,38px)}
-.fn b{display:block;font-weight:900;text-transform:uppercase;font-size:clamp(14px,1.5vw,21px)}
-.fn span{color:var(--mut);font-weight:700;font-size:clamp(11px,1.05vw,14px)}
-.fn.on{border-color:var(--y);background:#1a1700;transform:translateX(8px)}
-@media (max-width:760px){.dono{grid-template-columns:1fr}.menu{display:none}.funcs{grid-template-columns:1fr}}
+/* divisor dono */
+.divisor{background:var(--k);color:var(--w)}
+.divisor .kicker{color:#aaa}
+.divisor .acesso{display:flex;gap:clamp(10px,1.6vw,20px);flex-wrap:wrap;margin-top:clamp(18px,2.6vw,32px)}
+.divisor .acesso .card{background:#1b1b1b;color:var(--w);border-color:var(--y);box-shadow:6px 6px 0 var(--y);padding:clamp(14px,1.6vw,22px);flex:1;min-width:220px}
+.divisor .acesso b{display:block;font-weight:900;text-transform:uppercase;font-size:clamp(15px,1.6vw,22px);color:var(--y);margin-bottom:6px}
+.divisor .acesso span{font-weight:600;font-size:clamp(12px,1.2vw,16px);color:#ddd}
 
 /* fim */
-.fim{flex-direction:column;text-align:center;gap:clamp(16px,2.4vw,28px)}
-.url{font-weight:900;font-size:clamp(18px,3vw,44px);background:var(--y);color:var(--k);padding:.2em .5em;display:inline-block;word-break:break-all}
-.qr{background:var(--w);padding:10px;display:inline-block;border:4px solid var(--y)}
-.qr svg{display:block;width:clamp(120px,15vw,210px);height:auto}
+.fim{flex-direction:column;text-align:center}
+.fim .in{display:flex;flex-direction:column;align-items:center;gap:clamp(12px,2vw,24px)}
+.qr{background:var(--w);padding:10px;border:3px solid var(--line);border-radius:16px;box-shadow:6px 6px 0 var(--line)}
+.qr svg{display:block;width:clamp(120px,14vw,200px);height:auto}
+.url{font-weight:900;font-size:clamp(16px,2.6vw,38px);background:var(--y);border:3px solid var(--line);border-radius:999px;padding:.2em .8em;word-break:break-all}
 
-/* cola do apresentador */
-.cola{position:fixed;left:50%;bottom:44px;transform:translateX(-50%);width:min(860px,94vw);background:#141414;border:2px solid var(--o);
-  padding:12px 16px;z-index:40;font-weight:700;font-size:15px;line-height:1.45;display:none}
+/* cola */
+.cola{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);width:min(900px,94vw);background:var(--k);color:var(--w);border-radius:14px;border:3px solid var(--o);padding:12px 16px;z-index:40;font:600 15px/1.45 system-ui,"Segoe UI",sans-serif;display:none}
 .cola.on{display:block}
-.cola b{color:var(--o);display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px}
+.cola b{color:var(--o);display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px}
 
 @media (max-width:860px){
   html,body{overflow:auto}
-  .demo{grid-template-columns:1fr}
   .slide{align-items:flex-start;overflow-y:auto}
-  .pdv,.pag{grid-template-columns:1fr}
-  .carrinho{min-height:150px}
-  .kanban{grid-template-columns:repeat(2,1fr)}
+  .demo{height:auto}
+  .shot{width:100%}
+  .cab .sp{display:none}
+  .topbar .sec{display:none}
 }
 @media (prefers-reduced-motion:reduce){*{transition-duration:.01ms!important;animation:none!important}}
 </style>
 </head>
 <body>
+<div class="topbar"><span class="marca">TASTEFY ONE</span><span class="sep"></span><span class="sec" id="sec">Treinamento</span><span class="sp"></span><span class="pg" id="pager">1 / 1</span></div>
 <div class="bar" id="bar"></div>
 <div class="deck" id="deck">
 
-<!-- 1 CAPA -->
-<section class="slide capa" data-cola="Bom dia. Hoje vocês vão ver o dia inteiro da loja no One. São só 6 botões. Tudo que eu mostrar aqui vocês conseguem rever depois pelo celular.">
-  <div class="blocks"><i style="left:6%;animation-delay:-2s"></i><i style="left:22%;animation-delay:-9s;width:8vmin;height:8vmin"></i><i style="left:70%;animation-delay:-5s"></i><i style="left:86%;animation-delay:-12s;width:9vmin;height:9vmin"></i><i style="left:46%;animation-delay:-7s;width:6vmin;height:6vmin"></i></div>
-  <div class="in" style="display:flex;flex-direction:column;align-items:center;gap:clamp(16px,3vw,32px)">
-    <div class="logo"><b>Tastefy</b> One</div>
-    <h1>O dia da loja<br><span class="y">em 6 botões</span></h1>
-    <div class="seis" id="seis"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span></div>
+<!-- CAPA -->
+<section class="slide capa" data-sec="Treinamento" data-cola="Bom dia. Hoje vocês vão ver a loja funcionando no One, na tela de verdade. Primeiro o turno do caixa, em 6 passos. Depois o que vocês, como donos, fazem no menu do franqueado. Tudo isso fica disponível depois para rever no celular.">
+  <div class="in">
     <div class="kicker">Treinamento de franqueados</div>
+    <h1>A loja<br><span class="hl-y">no One</span></h1>
+    <div class="seis" id="seis"><span>Abrir caixa</span><span>Vender</span><span>Cobrar</span><span>Delivery</span><span>Sangria</span><span>Fechar caixa</span></div>
+    <div class="duas"><div class="card">🧑‍🍳 O turno do caixa</div><div class="card">🔑 O que o dono faz</div></div>
   </div>
 </section>
 
-<!-- 4 TRILHA -->
-<section class="slide" data-cola="Esse é o turno inteiro. Abre o caixa, vende, cobra, toca o delivery, tira o excesso da gaveta e fecha. Vou mostrar cada um em movimento. Ninguém precisa anotar.">
+<!-- TRILHA -->
+<section class="slide" data-sec="O turno" data-cola="Esse é o turno inteiro de quem fica no caixa. Abre, vende, cobra, toca o delivery, tira o excesso da gaveta e fecha. Vou mostrar cada passo na tela real do One.">
   <div class="wrap in">
-    <div class="kicker">O turno inteiro</div>
-    <h2>Do começo <span class="y">ao fim</span></h2>
+    <div class="kicker">Parte 1 · quem fica no caixa</div>
+    <h2>O turno <span class="hl-y">inteiro</span></h2>
     <div class="trilha">
-      <div class="passo"><div class="bola">🔓</div><b>Abrir caixa</b><small>começo do turno</small></div>
-      <div class="passo"><div class="bola">🧾</div><b>Vender</b><small>o dia todo</small></div>
-      <div class="passo"><div class="bola">💳</div><b>Cobrar</b><small>a cada venda</small></div>
-      <div class="passo"><div class="bola">🛵</div><b>Delivery</b><small>pedido chega sozinho</small></div>
-      <div class="passo"><div class="bola">💵</div><b>Sangria</b><small>gaveta cheia</small></div>
-      <div class="passo"><div class="bola">🔒</div><b>Fechar caixa</b><small>fim do turno</small></div>
+      <div class="passo card" style="transition-delay:.15s"><span class="n">1</span><b>Abrir caixa</b><small>começo do turno</small></div>
+      <div class="passo card" style="transition-delay:.3s"><span class="n">2</span><b>Vender</b><small>ache e toque</small></div>
+      <div class="passo card" style="transition-delay:.45s"><span class="n">3</span><b>Cobrar</b><small>o troco sai sozinho</small></div>
+      <div class="passo card" style="transition-delay:.6s"><span class="n">4</span><b>Delivery</b><small>o pedido chega sozinho</small></div>
+      <div class="passo card" style="transition-delay:.75s"><span class="n">5</span><b>Sangria</b><small>tirou dinheiro, registra</small></div>
+      <div class="passo card" style="transition-delay:.9s"><span class="n">6</span><b>Fechar caixa</b><small>conte antes de olhar</small></div>
     </div>
   </div>
 </section>
 
-<!-- 5 ABRIR CAIXA -->
-<section class="slide" data-scene="abrir" data-cola="Primeiro botão. Cada um entra com o próprio e-mail, nunca o do colega, porque desconto, cancelamento e sangria ficam no nome de quem está logado. Depois digita quanto tem de troco na gaveta. Contem o dinheiro antes de digitar: esse número é a base do fechamento.">
+<!-- 1 ABRIR -->
+<section class="slide" data-sec="1 · Abrir caixa" data-scene="abrir" data-cola="Primeiro passo. O PDV abre com o caixa fechado e nada vende assim, nem o delivery entra. Clica em Abrir caixa. O One pede quem está abrindo e o dinheiro da gaveta, contado cédula por cédula. Confirmou, fica verde: Caixa Aberto.">
   <div class="demo">
-    <div class="lado in">
-      <div class="badge"><i>1</i>Abrir caixa</div>
-      <h2>Comece<br><span class="y">o turno</span></h2>
-      <div class="caminho"><span>PDV</span><em>›</em><span>Frente de Caixa</span></div>
-      <ol class="etapas"><li>Seu e-mail e senha</li><li>Troco da gaveta</li><li>Caixa aberto</li></ol>
-      <div class="dica">Conte a gaveta antes de digitar</div>
-    </div>
-    <div class="tela" data-t>
-      <div class="topo"><span class="l">One</span>Frente de Caixa<span class="sp"></span><span class="chip">ONLINE</span><span class="chip c">IFOOD NO AR</span></div>
-      <div class="corpo">
-        <div class="fase centro" data-f="login">
-          <div class="ttl">Acesso ao sistema</div>
-          <div class="campo" data-c="email"><small>E-mail</small><span class="v"></span></div>
-          <div class="campo" data-c="senha"><small>Senha</small><span class="v"></span></div>
-          <div class="btn" data-b="entrar">Entrar</div>
-        </div>
-        <div class="fase centro" data-f="valor">
-          <div class="ttl">Abertura de caixa</div>
-          <div class="campo" data-c="troco"><small>Valor inicial (troco)</small><span class="v"></span></div>
-          <div class="btn" data-b="abrir">Abrir caixa</div>
-        </div>
-        <div class="fase centro" data-f="aberto">
-          <div class="okbox">✓ Caixa aberto<small>Turno iniciado · R$ 150,00 na gaveta</small></div>
-        </div>
-      </div>
-    </div>
+    <div class="cab"><span class="badge">1</span><h2>Abrir caixa</h2><span class="sp"></span><ol class="etapas"><li>Abrir caixa</li><li>Conte a gaveta</li><li>Caixa aberto</li></ol></div>
+    <div class="palco"><div class="shot" data-shot="caixa_fechado,abrir_dialog,frente_aberto"></div></div>
+    <div class="dica"><i>!</i>Caixa fechado não vende nem recebe delivery</div>
   </div>
 </section>
 
-<!-- 6 VENDER -->
-<section class="slide" data-scene="vender" data-cola="Segundo botão: vender. Digita um pedaço do nome e toca no produto. Se o cliente quer dois, não toca duas vezes: usa o mais dentro do carrinho. O total vai somando sozinho. Os valores aqui são só de exemplo.">
+<!-- 2 VENDER -->
+<section class="slide" data-sec="2 · Vender" data-scene="vender" data-cola="Segundo passo, vender. Busca pelo nome ou pelo código, ou toca na categoria. Tocou no produto, ele vai para o carrinho na direita. Cliente quer dois? Não toca de novo: usa o mais no carrinho. O total soma sozinho.">
   <div class="demo">
-    <div class="lado in">
-      <div class="badge"><i>2</i>Vender</div>
-      <h2>Ache<br><span class="y">e toque</span></h2>
-      <div class="caminho"><span>PDV</span><em>›</em><span>Frente de Caixa</span></div>
-      <ol class="etapas"><li>Digite parte do nome</li><li>Toque no produto</li><li>Mais um? Use o +</li></ol>
-      <div class="dica">Leia o total em voz alta</div>
-    </div>
-    <div class="tela" data-t>
-      <div class="topo"><span class="l">One</span>Frente de Caixa<span class="sp"></span><span class="chip">ONLINE</span><span class="chip c">CAIXA ABERTO</span></div>
-      <div class="corpo">
-        <div class="fase on" data-f="pdv" style="position:absolute">
-          <div class="pdv">
-            <div class="prods">
-              <div class="campo" data-c="busca" style="width:100%"><small>Buscar produto</small><span class="v"></span></div>
-              <div class="cards">
-                <div class="card" data-k="cento" data-m="cento">Cento de salgados<span class="p">R$ 29,99</span></div>
-                <div class="card" data-k="refri" data-m="refri">Refrigerante 2L<span class="p">R$ 13,99</span></div>
-                <div class="card" data-k="x" data-m="">Kibe<span class="p">R$ 6,50</span></div>
-                <div class="card" data-k="x2" data-m="">Coxinha<span class="p">R$ 7,90</span></div>
-                <div class="card" data-k="x3" data-m="">Suco<span class="p">R$ 8,00</span></div>
-                <div class="card" data-k="x4" data-m="">Churros<span class="p">R$ 9,90</span></div>
-              </div>
-            </div>
-            <div class="carrinho">
-              <div class="h">Carrinho</div>
-              <div class="itens" data-itens></div>
-              <div class="total"><span>Total</span><span class="v num" data-total>R$ 0,00</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <div class="cab"><span class="badge">2</span><h2>Vender</h2><span class="sp"></span><ol class="etapas"><li>Busque ou escolha a categoria</li><li>Toque no produto</li><li>Mais um? Use o +</li></ol></div>
+    <div class="palco"><div class="shot" data-shot="cat_a,cat_b"></div></div>
+    <div class="dica"><i>!</i>Atalhos: F2 busca · F4 cobrar · Esc limpa</div>
   </div>
 </section>
 
-<!-- 7 COBRAR -->
-<section class="slide" data-scene="cobrar" data-cola="Terceiro botão: cobrar. No dinheiro, digita quanto o cliente entregou e o troco aparece sozinho. Cliente pediu CPF na nota? É ali mesmo, em Inserir dados para nota fiscal, antes de confirmar.">
+<!-- 3 COBRAR -->
+<section class="slide" data-sec="3 · Cobrar" data-scene="cobrar" data-cola="Terceiro, cobrar. Antes do pagamento o One sugere a versão maior e uma bebida: o operador pergunta ao cliente e responde. Depois escolhe a forma, por exemplo dinheiro, toca no valor que o cliente deu e o troco aparece em verde. CPF na nota? É em Inserir dados para nota fiscal, antes de confirmar.">
   <div class="demo">
-    <div class="lado in">
-      <div class="badge"><i>3</i>Cobrar</div>
-      <h2>O troco<br><span class="y">sai sozinho</span></h2>
-      <div class="caminho"><span>Frente de Caixa</span><em>›</em><span>Cobrar</span></div>
-      <ol class="etapas"><li>Escolha a forma</li><li>Quanto o cliente deu</li><li>Confirmar pagamento</li></ol>
-      <div class="dica">CPF na nota? Antes de confirmar</div>
-    </div>
-    <div class="tela" data-t>
-      <div class="topo"><span class="l">One</span>Pagamento<span class="sp"></span><span class="chip">ONLINE</span></div>
-      <div class="corpo">
-        <div class="fase on" data-f="pag" style="position:absolute">
-          <div class="pag">
-            <div class="formas">
-              <div class="forma" data-p="deb">Débito</div>
-              <div class="forma" data-p="pix">Pix</div>
-              <div class="forma" data-p="din">Dinheiro</div>
-              <div class="forma" data-p="cre">Crédito</div>
-            </div>
-            <div class="resumo">
-              <div class="linha"><span>Total</span><span class="num">R$ 43,98</span></div>
-              <div class="campo" data-c="recebido" style="width:100%"><small>Cliente entregou</small><span class="v num"></span></div>
-              <div class="troco" data-troco><span>Troco</span><span class="num">R$ 6,02</span></div>
-              <div style="font-size:.85em;color:#555;font-weight:800">+ Inserir dados para nota fiscal</div>
-              <div class="btn" data-b="confirmar">Confirmar pagamento</div>
-            </div>
-          </div>
-        </div>
-        <div class="fase centro" data-f="feito"><div class="okbox">✓ Venda concluída<small>Troco R$ 6,02 entregue ao cliente</small></div></div>
-      </div>
-    </div>
+    <div class="cab"><span class="badge">3</span><h2>Cobrar</h2><span class="sp"></span><ol class="etapas"><li>Ofereça a sugestão</li><li>Forma e valor</li><li>Troco e confirmar</li></ol></div>
+    <div class="palco"><div class="shot" data-shot="cat_b,upsell,bebida,pagamento,troco"></div></div>
+    <div class="dica"><i>!</i>CPF na nota? Antes de confirmar</div>
   </div>
 </section>
 
-<!-- 8 DELIVERY -->
-<section class="slide" data-scene="delivery" data-cola="Quarto botão: o delivery. O pedido do iFood e do totem cai sozinho no Monitor Delivery e o computador toca. A equipe só arrasta o cartão conforme a cozinha anda, até despachar dizendo quem levou. Essa parte eu conheço bem: perguntem à vontade.">
+<!-- 4 DELIVERY -->
+<section class="slide" data-sec="4 · Delivery" data-scene="delivery" data-cola="Quarto, o delivery, na aba Monitor Delivery. Com o aceite automático ligado, o pedido do iFood, do cardápio, do app e do totem entra sozinho e o computador toca. A equipe move o pedido: Em preparo, Pronto, Despachado, Entregue. Deixem o Monitor aberto o turno todo.">
   <div class="demo">
-    <div class="lado in">
-      <div class="badge"><i>4</i>Delivery</div>
-      <h2>O pedido<br><span class="y">chega sozinho</span></h2>
-      <div class="caminho"><span>PDV</span><em>›</em><span>Monitor Delivery</span></div>
-      <ol class="etapas"><li>Pedido toca na tela</li><li>Arraste conforme a cozinha</li><li>Despache: quem levou</li></ol>
-      <div class="dica">Deixe o Monitor aberto o turno todo</div>
-    </div>
-    <div class="tela" data-t>
-      <div class="topo"><span class="l">One</span>Monitor Delivery<span class="sp"></span><span class="chip c">IFOOD NO AR</span></div>
-      <div class="corpo">
-        <div class="kanban" data-kanban>
-          <div class="col" data-col="0"><div class="h">Novo <b data-cnt>0</b></div><div class="lista"></div></div>
-          <div class="col" data-col="1"><div class="h">Em preparo <b data-cnt>0</b></div><div class="lista"></div></div>
-          <div class="col" data-col="2"><div class="h">Pronto <b data-cnt>0</b></div><div class="lista"></div></div>
-          <div class="col" data-col="3"><div class="h">Despachado <b data-cnt>0</b></div><div class="lista"></div></div>
-        </div>
-      </div>
-    </div>
+    <div class="cab"><span class="badge">4</span><h2>Delivery</h2><span class="sp"></span><ol class="etapas"><li>Monitor Delivery ao vivo</li><li>Pedido em preparo</li><li>Pronto, despachado, entregue</li></ol></div>
+    <div class="palco"><div class="shot" data-shot="monitor_topo,monitor_kanban"></div></div>
+    <div class="dica"><i>!</i>Deixe o Monitor aberto o turno todo</div>
   </div>
 </section>
 
-<!-- 9 SANGRIA -->
-<section class="slide" data-scene="sangria" data-cola="Quinto botão: sangria. Gaveta cheia, tira o dinheiro e registra na hora, com valor e motivo. Se esquecer e fizer no fim, o fechamento não bate. O contrário, colocar dinheiro na gaveta, é o suprimento, no botão do lado.">
+<!-- 5 SANGRIA -->
+<section class="slide" data-sec="5 · Sangria" data-scene="sangria" data-cola="Quinto, sangria. Gaveta cheia, tira o dinheiro e registra na hora, com valor e motivo. O valor é descontado no fechamento. Colocar dinheiro na gaveta é o Suprimento, na mesma janela.">
   <div class="demo">
-    <div class="lado in">
-      <div class="badge"><i>5</i>Sangria</div>
-      <h2>Tirou dinheiro?<br><span class="y">Registre</span></h2>
-      <div class="caminho"><span>PDV</span><em>›</em><span>Frente de Caixa</span></div>
-      <ol class="etapas"><li>Sangria</li><li>Valor e motivo</li><li>Registrado</li></ol>
-      <div class="dica">Na hora, não no fim do turno</div>
-    </div>
-    <div class="tela" data-t>
-      <div class="topo"><span class="l">One</span>Frente de Caixa<span class="sp"></span><span class="chip c">CAIXA ABERTO</span></div>
-      <div class="corpo">
-        <div class="fase centro" data-f="botoes">
-          <div class="ttl">Movimentar a gaveta</div>
-          <div style="display:flex;gap:12px"><div class="btn k" data-b="sangria">− Sangria</div><div class="btn w" data-b="sup">+ Suprimento</div></div>
-        </div>
-        <div class="fase centro" data-f="form">
-          <div class="ttl">Sangria</div>
-          <div class="campo" data-c="valor"><small>Valor</small><span class="v num"></span></div>
-          <div class="campo" data-c="motivo"><small>Motivo</small><span class="v"></span></div>
-          <div class="btn" data-b="registrar">Registrar</div>
-        </div>
-        <div class="fase centro" data-f="ok"><div class="okbox">✓ Sangria registrada<small>R$ 200,00 · Depósito no banco</small></div></div>
-      </div>
-    </div>
+    <div class="cab"><span class="badge">5</span><h2>Sangria</h2><span class="sp"></span><ol class="etapas"><li>Botão Sangria</li><li>Valor e motivo</li><li>Registrar</li></ol></div>
+    <div class="palco"><div class="shot" data-shot="frente_aberto,sangria"></div></div>
+    <div class="dica"><i>!</i>Registre na hora, não no fim do turno</div>
   </div>
 </section>
 
-<!-- 10 FECHAR -->
-<section class="slide" data-scene="fechar" data-cola="Sexto botão: fechar o caixa. O One faz a conta do que deveria ter na gaveta: o troco do começo, mais o que entrou em dinheiro, menos as sangrias. Contem o dinheiro antes de olhar a tela e digitem. Deu diferença? Registra com o motivo, não esconde. Os valores aqui são de exemplo.">
+<!-- 6 FECHAR -->
+<section class="slide" data-sec="6 · Fechar caixa" data-scene="fechar" data-cola="Sexto, fechar o caixa. Escolhe quem está fechando e conta o dinheiro cédula por cédula. O próprio One avisa: conte antes de ver o valor esperado, para ninguém ajustar a contagem para bater.">
   <div class="demo">
-    <div class="lado in">
-      <div class="badge"><i>6</i>Fechar caixa</div>
-      <h2>A conta<br><span class="y">fecha sozinha</span></h2>
-      <div class="caminho"><span>PDV</span><em>›</em><span>Frente de Caixa</span></div>
-      <ol class="etapas"><li>Conte a gaveta</li><li>Digite o que contou</li><li>Diferença na tela</li></ol>
-      <div class="dica">Deu diferença? Registre, não esconda</div>
-    </div>
-    <div class="tela" data-t>
-      <div class="topo"><span class="l">One</span>Fechar caixa<span class="sp"></span><span class="chip">ONLINE</span></div>
-      <div class="corpo" style="display:flex;align-items:center">
-        <div class="conta">
-          <div class="linha" data-l><span>Troco do começo</span><span class="num">R$ 150,00</span></div>
-          <div class="linha" data-l><span>+ Vendas em dinheiro</span><span class="num">R$ 420,00</span></div>
-          <div class="linha" data-l><span>− Sangria</span><span class="num">R$ 200,00</span></div>
-          <div class="linha res" data-l><span>Deveria ter</span><span class="num">R$ 370,00</span></div>
-          <div class="campo" data-c="contado" style="width:100%"><small>Quanto tem na gaveta</small><span class="v num"></span></div>
-          <div class="dif" data-dif>✓ Diferença R$ 0,00</div>
-        </div>
-      </div>
-    </div>
+    <div class="cab"><span class="badge">6</span><h2>Fechar caixa</h2><span class="sp"></span><ol class="etapas"><li>Fechar caixa</li><li>Quem está fechando</li><li>Conte a gaveta</li></ol></div>
+    <div class="palco"><div class="shot" data-shot="frente_aberto,fechar"></div></div>
+    <div class="dica"><i>!</i>Conte antes de ver o valor esperado</div>
   </div>
 </section>
 
-<!-- 11 REGRAS -->
-<section class="slide" data-cola="Três regras que evitam dor de cabeça. Um: cada um no seu usuário. Dois: nunca dar desconto na mão; se a promoção não entrou, tira print e chama o suporte, porque desconto na mão some do relatório da campanha. Três: travou ou ficou estranho, Control, Shift e R. Isso também puxa a versão nova do sistema.">
+<!-- REGRAS -->
+<section class="slide" data-sec="3 regras" data-cola="Três regras. Um: cada um entra no próprio usuário, porque desconto, cancelamento e sangria ficam no nome de quem está logado. Dois: nunca dar desconto na mão quando a promoção não entrar; tira print e chama o suporte. Três: travou ou chegou novidade, Control, Shift e R.">
   <div class="wrap in">
-    <div class="kicker">Três regras que salvam dinheiro</div>
-    <h2>Grave <span class="y">só isso</span></h2>
+    <div class="kicker">Grave só isso</div>
+    <h2>Três <span class="hl-y">regras</span></h2>
     <div class="regras">
-      <div class="regra"><div class="ic">🔑</div><b>Seu usuário,<br>sempre</b><span>Desconto, cancelamento e sangria ficam no nome de quem entrou.</span></div>
-      <div class="regra no"><div class="ic">🚫</div><b>Desconto na mão,<br>nunca</b><span>Promoção não entrou? Print e suporte.</span></div>
-      <div class="regra"><div class="ic">⟳</div><b>Travou?</b><span style="font-size:clamp(18px,2vw,28px);color:#fff"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd></span><span>Também pega a versão nova.</span></div>
+      <div class="regra card"><div class="ic">🔑</div><b>Seu usuário, sempre</b><span>Desconto, cancelamento e sangria ficam no nome de quem entrou.</span></div>
+      <div class="regra card no"><div class="ic">🚫</div><b>Desconto na mão, nunca</b><span>Promoção não entrou? Print e suporte.</span></div>
+      <div class="regra card"><div class="ic">⟳</div><b>Travou?</b><span style="font-size:clamp(16px,1.8vw,26px);color:#111"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd></span><span>Também pega a versão nova.</span></div>
     </div>
   </div>
 </section>
 
-<!-- 12 DONO -->
-<section class="slide" data-scene="dono" data-cola="Agora a parte do dono. Tudo isso fica no menu Franqueado. Preço e pausa de item em Operação, Produtos. Campanhas e cupons em Marketing. Quanto vendeu em Relatórios. Nota fiscal e o resultado do mês no Financeiro. E o estoque com a entrada de nota de compra.">
+<!-- DIVISOR DONO -->
+<section class="slide divisor" data-sec="Parte 2 · O dono" data-cola="Agora a parte de vocês, donos. Vocês entram no mesmo endereço, com o e-mail de franqueado. Em vez do caixa, abre a Área do Franqueado: um menu na esquerda com a operação, o marketing, o financeiro e o estoque da loja. E pelo botão Caixa vocês entram no PDV da loja quando precisarem.">
   <div class="wrap in">
-    <div class="kicker">Menu Franqueado</div>
-    <h2>O que <span class="y">o dono</span> faz</h2>
-    <div class="dono">
-      <div class="menu" data-menu>
-        <div class="mh">Franqueado</div>
-        <div class="gr">Operação</div><div class="it" data-i="0">Produtos</div><div class="it" data-i="2">Relatórios</div>
-        <div class="gr">Marketing</div><div class="it" data-i="1">Cupons</div>
-        <div class="gr">Financeiro</div><div class="it" data-i="3">Fiscal</div><div class="it" data-i="4">Demonstrativo Financeiro</div>
-        <div class="gr">Estoque</div><div class="it" data-i="5">Estoque</div>
-      </div>
-      <div class="funcs" data-funcs>
-        <div class="fn" data-i="0"><div class="ic">🏷️</div><div><b>Preço e pausa</b><span>Operação › Produtos</span></div></div>
-        <div class="fn" data-i="1"><div class="ic">🎯</div><div><b>Campanhas</b><span>Marketing › Cupons</span></div></div>
-        <div class="fn" data-i="2"><div class="ic">📊</div><div><b>Quanto vendi</b><span>Operação › Relatórios</span></div></div>
-        <div class="fn" data-i="3"><div class="ic">🧾</div><div><b>Nota fiscal</b><span>Financeiro › Fiscal</span></div></div>
-        <div class="fn" data-i="4"><div class="ic">💰</div><div><b>Resultado do mês</b><span>Financeiro › Demonstrativo</span></div></div>
-        <div class="fn" data-i="5"><div class="ic">📦</div><div><b>Estoque e compras</b><span>Franqueado › Estoque</span></div></div>
-      </div>
+    <div class="kicker">Parte 2 · acesso do franqueado</div>
+    <h2>O que <span style="color:var(--y)">o dono</span> faz</h2>
+    <div class="acesso">
+      <div class="card"><b>1 · Entrar</b><span>tastefyone.com com o seu e-mail de franqueado</span></div>
+      <div class="card"><b>2 · Área do Franqueado</b><span>Menu na esquerda: Operação, Marketing, Financeiro, Estoque</span></div>
+      <div class="card"><b>3 · Botão Caixa</b><span>Leva ao PDV da loja quando precisar</span></div>
     </div>
   </div>
 </section>
 
-<!-- 13 FIM -->
-<section class="slide fim" data-cola="Para terminar: dentro do One tem aulas curtas de cada uma dessas telas, com animação igual a essa. Apontem a câmera do celular para o código e guardem. Perguntas?">
-  <div class="in" style="display:flex;flex-direction:column;align-items:center;gap:clamp(16px,2.4vw,28px)">
+<!-- INICIO FRANQ -->
+<section class="slide" data-sec="Área do Franqueado" data-scene="inicio" data-cola="Esta é a tela inicial do franqueado. No topo, a Saúde da Loja: se tem algo parado ou pendente, aparece aqui com o link Ver achados. Depois o período, os números da loja, os caixas abertos e fechados e os pedidos de delivery do dia. Na esquerda fica o menu com tudo o resto.">
+  <div class="demo">
+    <div class="cab"><span class="badge dono">D</span><h2>Início do dono</h2><span class="sp"></span><ol class="etapas"><li>Saúde da Loja</li><li>Período e números</li><li>Caixas e delivery do dia</li></ol></div>
+    <div class="palco"><div class="shot" data-shot="franq_inicio"></div></div>
+    <div class="dica"><i>!</i>Comece o dia pela Saúde da Loja</div>
+  </div>
+</section>
+
+<!-- ESTOQUE -->
+<section class="slide" data-sec="Estoque" data-scene="estoque" data-cola="Estoque. Loja nova começa aqui: três passos, modelo de negócio, freezers e rota. Depois, em Meu estoque, o saldo é automático: cai quando abre a embalagem e sobe quando recebe. Chegou mercadoria, Registrar compra ou Importar NF. No fim, Conferir aberturas e Contagem dos fechados, e a contagem do mês que fecha o custo.">
+  <div class="demo">
+    <div class="cab"><span class="badge dono">D</span><h2>Estoque</h2><span class="sp"></span><ol class="etapas"><li>Loja nova: configure</li><li>Chegou mercadoria</li><li>Conferir e contar</li></ol></div>
+    <div class="palco"><div class="shot" data-shot="estoque_config,estoque_meu,estoque_contagem"></div></div>
+    <div class="dica"><i>!</i>Saldo cai ao abrir embalagem e sobe ao receber</div>
+  </div>
+</section>
+
+<!-- CANCELAR -->
+<section class="slide" data-sec="Cancelar e nota" data-scene="cancelar" data-cola="Vendas do turno ficam embaixo do caixa, em Vendas da Sessão. Em cada linha: detalhes, cupom, emitir a nota, colocar CPF ou CNPJ depois e cancelar. Cancelamento fica no nome de quem cancelou. Depois o dono confere em Relatórios, Cancelamentos.">
+  <div class="demo">
+    <div class="cab"><span class="badge dono">D</span><h2>Cancelar e nota</h2><span class="sp"></span><ol class="etapas"><li>Vendas da Sessão</li><li>CPF depois ou cancelar</li><li>Conferir em Relatórios</li></ol></div>
+    <div class="palco"><div class="shot" data-shot="vendas_sessao,franq_relatorios"></div></div>
+    <div class="dica"><i>!</i>Cancelamento fica no nome de quem cancelou</div>
+  </div>
+</section>
+
+<!-- PRODUTOS -->
+<section class="slide" data-sec="Produtos e preço" data-scene="produtos" data-cola="Produtos. Aqui aparece o catálogo da rede e os produtos locais. O dono pode alterar o preço só desta loja, no botão Alterar preço. Os dados fiscais e o cardápio padrão continuam com a franqueadora. Produto que só a sua loja vende entra em Adicionar produto local.">
+  <div class="demo">
+    <div class="cab"><span class="badge dono">D</span><h2>Produtos e preço</h2><span class="sp"></span><ol class="etapas"><li>Catálogo da rede</li><li>Alterar preço da loja</li><li>Produto local</li></ol></div>
+    <div class="palco"><div class="shot" data-shot="franq_produtos"></div></div>
+    <div class="dica"><i>!</i>O preço muda só na sua loja</div>
+  </div>
+</section>
+
+<!-- RELATORIOS -->
+<section class="slide" data-sec="Relatórios" data-scene="relatorios" data-cola="Relatórios, divididos em três linhas: Vendas, Operação e Fiscal. Os que mais ajudam no começo: Vendas por período, Produtos mais vendidos, Auditoria de caixa e Cancelamentos. Escolhe o período e a marca em cima.">
+  <div class="demo">
+    <div class="cab"><span class="badge dono">D</span><h2>Relatórios</h2><span class="sp"></span><ol class="etapas"><li>Vendas</li><li>Operação</li><li>Fiscal</li></ol></div>
+    <div class="palco"><div class="shot" data-shot="franq_relatorios"></div></div>
+    <div class="dica"><i>!</i>Escolha o período antes de ler</div>
+  </div>
+</section>
+
+<!-- FIM -->
+<section class="slide fim" data-sec="Fim" data-cola="Para terminar: dentro do One tem aulas curtas de cada tela. Apontem a câmera do celular para o código e guardem. Perguntas?">
+  <div class="in">
     <div class="kicker">Esqueceu um passo?</div>
-    <h2>Tem aula <span class="y">no One</span></h2>
+    <h2>Tem aula <span class="hl-y">no One</span></h2>
     <div class="qr" id="qr"><svg width="31mm" height="31mm" version="1.1" viewBox="0 0 31 31" xmlns="http://www.w3.org/2000/svg"><path d="M1,1H2V2H1zM2,1H3V2H2zM3,1H4V2H3zM4,1H5V2H4zM5,1H6V2H5zM6,1H7V2H6zM7,1H8V2H7zM9,1H10V2H9zM10,1H11V2H10zM15,1H16V2H15zM19,1H20V2H19zM21,1H22V2H21zM23,1H24V2H23zM24,1H25V2H24zM25,1H26V2H25zM26,1H27V2H26zM27,1H28V2H27zM28,1H29V2H28zM29,1H30V2H29zM1,2H2V3H1zM7,2H8V3H7zM9,2H10V3H9zM12,2H13V3H12zM13,2H14V3H13zM14,2H15V3H14zM15,2H16V3H15zM18,2H19V3H18zM20,2H21V3H20zM23,2H24V3H23zM29,2H30V3H29zM1,3H2V4H1zM3,3H4V4H3zM4,3H5V4H4zM5,3H6V4H5zM7,3H8V4H7zM9,3H10V4H9zM11,3H12V4H11zM12,3H13V4H12zM14,3H15V4H14zM15,3H16V4H15zM17,3H18V4H17zM20,3H21V4H20zM21,3H22V4H21zM23,3H24V4H23zM25,3H26V4H25zM26,3H27V4H26zM27,3H28V4H27zM29,3H30V4H29zM1,4H2V5H1zM3,4H4V5H3zM4,4H5V5H4zM5,4H6V5H5zM7,4H8V5H7zM11,4H12V5H11zM12,4H13V5H12zM13,4H14V5H13zM14,4H15V5H14zM18,4H19V5H18zM20,4H21V5H20zM21,4H22V5H21zM23,4H24V5H23zM25,4H26V5H25zM26,4H27V5H26zM27,4H28V5H27zM29,4H30V5H29zM1,5H2V6H1zM3,5H4V6H3zM4,5H5V6H4zM5,5H6V6H5zM7,5H8V6H7zM9,5H10V6H9zM11,5H12V6H11zM12,5H13V6H12zM15,5H16V6H15zM17,5H18V6H17zM18,5H19V6H18zM19,5H20V6H19zM20,5H21V6H20zM23,5H24V6H23zM25,5H26V6H25zM26,5H27V6H26zM27,5H28V6H27zM29,5H30V6H29zM1,6H2V7H1zM7,6H8V7H7zM10,6H11V7H10zM12,6H13V7H12zM19,6H20V7H19zM21,6H22V7H21zM23,6H24V7H23zM29,6H30V7H29zM1,7H2V8H1zM2,7H3V8H2zM3,7H4V8H3zM4,7H5V8H4zM5,7H6V8H5zM6,7H7V8H6zM7,7H8V8H7zM9,7H10V8H9zM11,7H12V8H11zM13,7H14V8H13zM15,7H16V8H15zM17,7H18V8H17zM19,7H20V8H19zM21,7H22V8H21zM23,7H24V8H23zM24,7H25V8H24zM25,7H26V8H25zM26,7H27V8H26zM27,7H28V8H27zM28,7H29V8H28zM29,7H30V8H29zM10,8H11V9H10zM12,8H13V9H12zM14,8H15V9H14zM16,8H17V9H16zM17,8H18V9H17zM1,9H2V10H1zM4,9H5V10H4zM5,9H6V10H5zM6,9H7V10H6zM7,9H8V10H7zM8,9H9V10H8zM9,9H10V10H9zM13,9H14V10H13zM15,9H16V10H15zM17,9H18V10H17zM18,9H19V10H18zM22,9H23V10H22zM25,9H26V10H25zM27,9H28V10H27zM28,9H29V10H28zM29,9H30V10H29zM3,10H4V11H3zM4,10H5V11H4zM6,10H7V11H6zM8,10H9V11H8zM10,10H11V11H10zM11,10H12V11H11zM14,10H15V11H14zM15,10H16V11H15zM16,10H17V11H16zM18,10H19V11H18zM19,10H20V11H19zM20,10H21V11H20zM24,10H25V11H24zM25,10H26V11H25zM27,10H28V11H27zM28,10H29V11H28zM2,11H3V12H2zM3,11H4V12H3zM4,11H5V12H4zM7,11H8V12H7zM8,11H9V12H8zM9,11H10V12H9zM10,11H11V12H10zM12,11H13V12H12zM13,11H14V12H13zM15,11H16V12H15zM16,11H17V12H16zM24,11H25V12H24zM25,11H26V12H25zM27,11H28V12H27zM2,12H3V13H2zM3,12H4V13H3zM5,12H6V13H5zM15,12H16V13H15zM18,12H19V13H18zM20,12H21V13H20zM22,12H23V13H22zM23,12H24V13H23zM25,12H26V13H25zM26,12H27V13H26zM29,12H30V13H29zM4,13H5V14H4zM7,13H8V14H7zM8,13H9V14H8zM9,13H10V14H9zM10,13H11V14H10zM12,13H13V14H12zM16,13H17V14H16zM20,13H21V14H20zM21,13H22V14H21zM23,13H24V14H23zM29,13H30V14H29zM1,14H2V15H1zM2,14H3V15H2zM4,14H5V15H4zM6,14H7V15H6zM8,14H9V15H8zM13,14H14V15H13zM14,14H15V15H14zM16,14H17V15H16zM17,14H18V15H17zM18,14H19V15H18zM19,14H20V15H19zM23,14H24V15H23zM24,14H25V15H24zM25,14H26V15H25zM26,14H27V15H26zM27,14H28V15H27zM28,14H29V15H28zM29,14H30V15H29zM1,15H2V16H1zM3,15H4V16H3zM5,15H6V16H5zM6,15H7V16H6zM7,15H8V16H7zM9,15H10V16H9zM11,15H12V16H11zM12,15H13V16H12zM16,15H17V16H16zM18,15H19V16H18zM20,15H21V16H20zM23,15H24V16H23zM24,15H25V16H24zM27,15H28V16H27zM29,15H30V16H29zM2,16H3V17H2zM3,16H4V17H3zM4,16H5V17H4zM10,16H11V17H10zM11,16H12V17H11zM13,16H14V17H13zM19,16H20V17H19zM20,16H21V17H20zM25,16H26V17H25zM27,16H28V17H27zM29,16H30V17H29zM3,17H4V18H3zM4,17H5V18H4zM5,17H6V18H5zM7,17H8V18H7zM9,17H10V18H9zM11,17H12V18H11zM12,17H13V18H12zM15,17H16V18H15zM16,17H17V18H16zM17,17H18V18H17zM20,17H21V18H20zM21,17H22V18H21zM26,17H27V18H26zM1,18H2V19H1zM2,18H3V19H2zM3,18H4V19H3zM6,18H7V19H6zM9,18H10V19H9zM11,18H12V19H11zM13,18H14V19H13zM14,18H15V19H14zM16,18H17V19H16zM19,18H20V19H19zM20,18H21V19H20zM22,18H23V19H22zM25,18H26V19H25zM27,18H28V19H27zM28,18H29V19H28zM1,19H2V20H1zM2,19H3V20H2zM4,19H5V20H4zM5,19H6V20H5zM6,19H7V20H6zM7,19H8V20H7zM9,19H10V20H9zM10,19H11V20H10zM12,19H13V20H12zM16,19H17V20H16zM17,19H18V20H17zM18,19H19V20H18zM19,19H20V20H19zM20,19H21V20H20zM22,19H23V20H22zM25,19H26V20H25zM26,19H27V20H26zM29,19H30V20H29zM1,20H2V21H1zM2,20H3V21H2zM3,20H4V21H3zM5,20H6V21H5zM8,20H9V21H8zM10,20H11V21H10zM11,20H12V21H11zM12,20H13V21H12zM13,20H14V21H13zM15,20H16V21H15zM17,20H18V21H17zM19,20H20V21H19zM20,20H21V21H20zM22,20H23V21H22zM25,20H26V21H25zM26,20H27V21H26zM27,20H28V21H27zM1,21H2V22H1zM2,21H3V22H2zM7,21H8V22H7zM8,21H9V22H8zM9,21H10V22H9zM11,21H12V22H11zM14,21H15V22H14zM15,21H16V22H15zM16,21H17V22H16zM18,21H19V22H18zM20,21H21V22H20zM21,21H22V22H21zM22,21H23V22H22zM23,21H24V22H23zM24,21H25V22H24zM25,21H26V22H25zM26,21H27V22H26zM27,21H28V22H27zM28,21H29V22H28zM9,22H10V23H9zM13,22H14V23H13zM15,22H16V23H15zM16,22H17V23H16zM19,22H20V23H19zM21,22H22V23H21zM25,22H26V23H25zM26,22H27V23H26zM1,23H2V24H1zM2,23H3V24H2zM3,23H4V24H3zM4,23H5V24H4zM5,23H6V24H5zM6,23H7V24H6zM7,23H8V24H7zM9,23H10V24H9zM10,23H11V24H10zM15,23H16V24H15zM16,23H17V24H16zM17,23H18V24H17zM18,23H19V24H18zM20,23H21V24H20zM21,23H22V24H21zM23,23H24V24H23zM25,23H26V24H25zM26,23H27V24H26zM1,24H2V25H1zM7,24H8V25H7zM9,24H10V25H9zM15,24H16V25H15zM16,24H17V25H16zM18,24H19V25H18zM20,24H21V25H20zM21,24H22V25H21zM25,24H26V25H25zM29,24H30V25H29zM1,25H2V26H1zM3,25H4V26H3zM4,25H5V26H4zM5,25H6V26H5zM7,25H8V26H7zM9,25H10V26H9zM10,25H11V26H10zM11,25H12V26H11zM13,25H14V26H13zM14,25H15V26H14zM15,25H16V26H15zM17,25H18V26H17zM20,25H21V26H20zM21,25H22V26H21zM22,25H23V26H22zM23,25H24V26H23zM24,25H25V26H24zM25,25H26V26H25zM26,25H27V26H26zM28,25H29V26H28zM1,26H2V27H1zM3,26H4V27H3zM4,26H5V27H4zM5,26H6V27H5zM7,26H8V27H7zM9,26H10V27H9zM10,26H11V27H10zM13,26H14V27H13zM14,26H15V27H14zM16,26H17V27H16zM19,26H20V27H19zM20,26H21V27H20zM22,26H23V27H22zM29,26H30V27H29zM1,27H2V28H1zM3,27H4V28H3zM4,27H5V28H4zM5,27H6V28H5zM7,27H8V28H7zM10,27H11V28H10zM11,27H12V28H11zM13,27H14V28H13zM16,27H17V28H16zM18,27H19V28H18zM19,27H20V28H19zM21,27H22V28H21zM22,27H23V28H22zM24,27H25V28H24zM25,27H26V28H25zM27,27H28V28H27zM28,27H29V28H28zM29,27H30V28H29zM1,28H2V29H1zM7,28H8V29H7zM11,28H12V29H11zM12,28H13V29H12zM13,28H14V29H13zM14,28H15V29H14zM15,28H16V29H15zM17,28H18V29H17zM22,28H23V29H22zM25,28H26V29H25zM26,28H27V29H26zM27,28H28V29H27zM29,28H30V29H29zM1,29H2V30H1zM2,29H3V30H2zM3,29H4V30H3zM4,29H5V30H4zM5,29H6V30H5zM6,29H7V30H6zM7,29H8V30H7zM9,29H10V30H9zM10,29H11V30H10zM11,29H12V30H11zM13,29H14V30H13zM15,29H16V30H15zM16,29H17V30H16zM20,29H21V30H20zM21,29H22V30H21zM23,29H24V30H23zM25,29H26V30H25zM26,29H27V30H26z" id="qr-path" fill="#000000" fill-opacity="1" fill-rule="nonzero" stroke="none"/></svg></div>
     <div class="url">tastefyone.com/conheca/tutoriais</div>
-    <div class="big" style="color:#bbb">Perguntas?</div>
+    <div style="font-weight:800;color:#555;font-size:clamp(16px,1.8vw,24px)">Perguntas?</div>
   </div>
 </section>
 
 </div>
 <div class="cola" id="cola"><b>O que falar</b><span id="colaTxt"></span></div>
-<div class="pager num" id="pager"></div>
-<div class="hint">← → passar · N cola do apresentador · A automático</div>
 
 <script>
 (function(){
 "use strict";
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
-const slides=$$('.slide'); let cur=-1, token=0, auto=null;
+const W=1536,H=674;
+const slides=$$('.slide'); let cur=-1, token=0, auto=null, colaOn=/cola/.test(location.hash);
 
-/* ---------- QR (gerado offline) ---------- */
+/* monta as telas reais */
+$$('[data-shot]').forEach(sh=>{
+  const names=sh.dataset.shot.split(',');
+  sh.innerHTML='<div class="cam">'+names.map((n,i)=>`<img src="assets/img/${n}.webp" data-k="${n}" alt="" class="${i===0?'on':''}" decoding="async">`).join('')+
+    '<div class="spot"></div><div class="cur"><svg viewBox="0 0 24 24"><path d="M3 2l7 19 2.6-7.6L20 11z" fill="#fff" stroke="#111" stroke-width="2" stroke-linejoin="round"/></svg></div><div class="cap"></div></div>';
+});
+if(colaOn) $('#cola').classList.add('on');
 
-
-/* ---------- navegação ---------- */
 function go(i){
   i=Math.max(0,Math.min(slides.length-1,i)); if(i===cur) return;
   if(cur>=0) slides[cur].classList.remove('on');
   cur=i; const s=slides[i]; s.classList.add('on'); token++;
   $('#bar').style.width=((i+1)/slides.length*100)+'%';
   $('#pager').textContent=(i+1)+' / '+slides.length;
+  $('#sec').textContent=s.dataset.sec||'';
   $('#colaTxt').textContent=s.dataset.cola||'';
-  enter(s,token);
   try{history.replaceState(null,'','#'+(i+1)+(colaOn?'-cola':''))}catch(e){}
+  if(s.contains($('#seis'))) seis(token);
+  const sc=SCENES[s.dataset.scene]; if(sc) run(sc,s,token);
 }
 function next(d){go(cur+d)}
-let colaOn=/cola/.test(location.hash);
-if(colaOn) $('#cola').classList.add('on');
 document.addEventListener('keydown',e=>{
   if(['ArrowRight','ArrowDown','PageDown',' ','Enter'].includes(e.key)){e.preventDefault();next(1)}
   else if(['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(e.key)){e.preventDefault();next(-1)}
   else if(e.key==='Home') go(0); else if(e.key==='End') go(slides.length-1);
   else if(e.key==='n'||e.key==='N'){colaOn=!colaOn;$('#cola').classList.toggle('on',colaOn)}
-  else if(e.key==='a'||e.key==='A'){ if(auto){clearInterval(auto);auto=null} else auto=setInterval(()=>{cur<slides.length-1?next(1):go(0)},14000) }
+  else if(e.key==='a'||e.key==='A'){ if(auto){clearInterval(auto);auto=null} else auto=setInterval(()=>{cur<slides.length-1?next(1):go(0)},22000) }
   else if(e.key==='f'||e.key==='F'){ document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen().catch(()=>{}) }
 });
-document.addEventListener('click',e=>{ if(e.target.closest('a,.cola')) return; const x=e.clientX/innerWidth; next(x<.25?-1:1) });
+document.addEventListener('click',e=>{ if(e.target.closest('.cola')) return; next(e.clientX/innerWidth<.25?-1:1) });
 let tx=null; document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
 document.addEventListener('touchend',e=>{ if(tx==null) return; const dx=e.changedTouches[0].clientX-tx; if(Math.abs(dx)>50) next(dx<0?1:-1); tx=null },{passive:true});
-
-/* ---------- entrada de cada slide ---------- */
-function enter(s,t){
-  // contadores
-  $$('[data-n]',s).forEach(el=>count(el,+el.dataset.n,t));
-  // barras
-  $$('.tr i',s).forEach((el,k)=>{el.style.width='0';setTimeout(()=>{if(t===token)el.style.width=Math.max(1.2,+el.dataset.w)+'%'},250+k*140)});
-  // capa
-  const seis=$('#seis'); if(s.contains(seis)){ $$('span',seis).forEach((el,k)=>{el.classList.remove('fill');el.style.transitionDelay=(.5+k*.12)+'s'}); fillSeis(t); }
-  // trilha
-  $$('.passo .bola',s).forEach((b,k)=>{b.style.transitionDelay=(.3+k*.38)+'s'});
-  const sc=SCENES[s.dataset.scene]; if(sc) run(sc,s,t);
-}
-async function fillSeis(t){ const sp=$$('#seis span'); await wait(1600); for(;;){ for(const el of sp){ if(t!==token) return; el.classList.add('fill'); await wait(260)} await wait(900); sp.forEach(el=>el.classList.remove('fill')); await wait(500); if(t!==token) return; } }
-function count(el,n,t){ const t0=performance.now(), dur=1300; el.textContent='0';
-  (function f(now){ if(t!==token){el.textContent=fmt(n);return} const p=Math.min(1,(now-t0)/dur); el.textContent=fmt(Math.round(n*(1-Math.pow(1-p,3)))); if(p<1) requestAnimationFrame(f) })(t0);
-}
-const fmt=n=>n.toLocaleString('pt-BR');
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
+async function seis(t){ const sp=$$('#seis span'); sp.forEach((el,k)=>el.style.transitionDelay=(.3+k*.08)+'s'); await wait(1400);
+  for(;;){ for(const el of sp){ if(t!==token) return; sp.forEach(x=>x.classList.remove('on')); el.classList.add('on'); await wait(700) } } }
 
-/* ---------- motor das animações ---------- */
+/* motor: coordenadas no tamanho do print (1536 x 674) */
 async function run(scene,s,t){
-  const tela=$('[data-t]',s)||s; let c=$('.cur',tela);
-  if(!c){ c=document.createElement('div'); c.className='cur'; c.innerHTML='<svg viewBox="0 0 24 24" width="26" height="26"><path d="M3 2l7 19 2.6-7.6L20 11z" fill="#fff" stroke="#000" stroke-width="2" stroke-linejoin="round"/></svg>'; tela.appendChild(c); }
+  const sh=$('[data-shot]',s), cam=$('.cam',sh), cur=$('.cur',sh), spot=$('.spot',sh), cap=$('.cap',sh);
+  const px=x=>x/W*100+'%', py=y=>y/H*100+'%';
   const K={
-    s,tela,
     sleep:ms=>new Promise((res,rej)=>setTimeout(()=>t===token?res():rej('stop'),ms)),
-    async to(el,dx=.5,dy=.6){ const a=tela.getBoundingClientRect(), b=el.getBoundingClientRect(); c.style.left=(b.left-a.left+b.width*dx)+'px'; c.style.top=(b.top-a.top+b.height*dy)+'px'; await K.sleep(750); },
-    async click(el){ await K.to(el); c.classList.remove('clk'); void c.offsetWidth; c.classList.add('clk'); el.classList.add('press'); await K.sleep(180); el.classList.remove('press'); await K.sleep(220); },
-    async type(el,txt,ms=75){ const v=$('.v',el); el.classList.add('foco'); v.textContent=''; for(const ch of txt){ v.textContent+=ch; await K.sleep(ms) } await K.sleep(250); el.classList.remove('foco'); },
-    fase(n){ $$('.fase',tela).forEach(f=>f.classList.toggle('on',f.dataset.f===n)) },
+    show(k){ $$('img',cam).forEach(im=>im.classList.toggle('on',im.dataset.k===k)) },
+    async to(x,y){ cur.style.left=px(x); cur.style.top=py(y); await K.sleep(800) },
+    async click(x,y){ await K.to(x,y); cur.classList.remove('clk'); void cur.offsetWidth; cur.classList.add('clk'); await K.sleep(450) },
+    hl(x1,y1,x2,y2,txt){ spot.style.left=px(x1-6); spot.style.top=py(y1-6); spot.style.width=px(x2-x1+12); spot.style.height=py(y2-y1+12); spot.classList.add('on');
+      if(txt){ cap.textContent=txt; const below=y2+60<H; cap.style.left=px(Math.min(Math.max(x1,10),W-560)); cap.style.top=below?py(y2+16):py(Math.max(y1-62,6)); cap.classList.add('on') } else cap.classList.remove('on') },
+    off(){ spot.classList.remove('on'); cap.classList.remove('on') },
+    zoom(x,y,z){ cam.style.transformOrigin=px(x)+' '+py(y); cam.style.transform='scale('+z+')' },
+    unzoom(){ cam.style.transform='none' },
     step(n){ $$('.etapas li',s).forEach((li,k)=>{li.classList.toggle('on',k===n);li.classList.toggle('ok',k<n)}) },
-    q:(x)=>$(x,tela)
+    reset(first){ K.off(); K.unzoom(); K.show(first); K.step(-1); cur.style.left='70%'; cur.style.top='80%' }
   };
-  try{ for(;;){ await scene(K); await K.sleep(1600); } }catch(e){ if(e!=='stop') console.error(e) }
+  try{ for(;;){ await scene(K); await K.sleep(1200) } }catch(e){ if(e!=='stop') console.error(e) }
 }
 
 const SCENES={
   async abrir(K){
-    K.step(0); K.fase('login'); $$('.campo .v',K.tela).forEach(v=>v.textContent='');
-    await K.sleep(500);
-    await K.click(K.q('[data-c=email]')); await K.type(K.q('[data-c=email]'),'caixa@loja.com',55);
-    await K.click(K.q('[data-c=senha]')); await K.type(K.q('[data-c=senha]'),'••••••••',60);
-    await K.click(K.q('[data-b=entrar]'));
-    K.step(1); K.fase('valor'); await K.sleep(500);
-    await K.click(K.q('[data-c=troco]')); await K.type(K.q('[data-c=troco]'),'R$ 150,00',110);
-    await K.click(K.q('[data-b=abrir]'));
-    K.step(2); K.fase('aberto'); await K.sleep(2600);
+    K.reset('caixa_fechado'); await K.sleep(500);
+    K.step(0); K.hl(25,320,1497,390,'Caixa fechado: nada vende'); await K.sleep(1800);
+    K.hl(1322,80,1491,120,'Toque em Abrir caixa'); await K.click(1405,100); await K.sleep(300);
+    K.off(); K.show('abrir_dialog'); K.step(1); await K.sleep(700);
+    K.hl(537,145,985,190,'Quem está abrindo'); await K.to(760,167); await K.sleep(1300);
+    K.zoom(760,400,1.35); K.hl(537,230,985,460,'Conte cédula por cédula'); await K.to(645,331); await K.sleep(2600);
+    K.unzoom(); K.off(); K.show('frente_aberto'); K.step(2); await K.sleep(500);
+    K.hl(28,330,345,375,'Caixa Aberto: pode vender'); await K.to(200,352); await K.sleep(2600);
   },
   async vender(K){
-    const itens=K.q('[data-itens]'), tot=K.q('[data-total]'), busca=K.q('[data-c=busca]');
-    itens.innerHTML=''; tot.textContent='R$ 0,00'; $('.v',busca).textContent=''; $$('.card',K.tela).forEach(c=>c.classList.remove('dim','hit'));
-    K.step(0); await K.sleep(400);
-    await K.click(busca); await K.type(busca,'cen',160);
-    $$('.card',K.tela).forEach(c=>c.classList.toggle('dim',c.dataset.m!=='cento'));
-    await K.sleep(500); K.step(1);
-    const cento=K.q('[data-k=cento]'); await K.click(cento); cento.classList.add('hit');
-    itens.insertAdjacentHTML('beforeend','<div class="item"><span>Cento de salgados</span><span class="qt"><i>−</i><b>1</b><i data-mais>+</i></span></div>');
-    setTotal(tot,'R$ 29,99'); await K.sleep(500); cento.classList.remove('hit');
-    $('.v',busca).textContent=''; $$('.card',K.tela).forEach(c=>c.classList.remove('dim')); await K.sleep(300);
-    const refri=K.q('[data-k=refri]'); await K.click(refri); refri.classList.add('hit');
-    itens.insertAdjacentHTML('beforeend','<div class="item"><span>Refrigerante 2L</span><span class="qt"><i>−</i><b>1</b><i data-mais>+</i></span></div>');
-    setTotal(tot,'R$ 43,98'); await K.sleep(500); refri.classList.remove('hit');
-    K.step(2); const mais=$$('[data-mais]',itens)[0]; await K.click(mais);
-    mais.previousElementSibling.textContent='2'; setTotal(tot,'R$ 73,97'); await K.sleep(2400);
+    K.reset('cat_a'); await K.sleep(500);
+    K.step(0); K.hl(28,188,1056,232,'Busque pelo nome ou código'); await K.click(300,210); await K.sleep(1200);
+    K.hl(587,243,715,272,'Ou toque na categoria'); await K.click(651,258); await K.sleep(900);
+    K.step(1); K.hl(289,289,539,360,'Toque no produto'); await K.click(375,317);
+    K.show('cat_b'); await K.sleep(300);
+    K.hl(1105,185,1490,236,'Foi para o carrinho'); await K.to(1180,210); await K.sleep(1600);
+    K.step(2); K.zoom(1300,250,1.5); K.hl(1324,194,1358,227,'Mais um? Use o +'); await K.click(1340,210); await K.sleep(1500);
+    K.hl(1100,338,1497,372,'O total soma sozinho'); await K.to(1440,354); await K.sleep(2000); K.unzoom();
   },
   async cobrar(K){
-    K.fase('pag'); $$('.forma',K.tela).forEach(f=>f.classList.remove('sel')); K.q('[data-troco]').classList.remove('on'); $('.v',K.q('[data-c=recebido]')).textContent='';
-    $$('.uso',K.tela).forEach(u=>u.style.width='0'); await K.sleep(200);
-    $$('.uso',K.tela).forEach(u=>u.style.width=(u.dataset.w/30.7*100)+'%');
-    K.step(0); await K.sleep(900);
-    const din=K.q('[data-p=din]'); await K.click(din); din.classList.add('sel');
-    K.step(1); const rec=K.q('[data-c=recebido]'); await K.click(rec); await K.type(rec,'R$ 50,00',120);
-    K.q('[data-troco]').classList.add('on'); await K.sleep(1300);
-    K.step(2); await K.click(K.q('[data-b=confirmar]'));
-    K.fase('feito'); await K.sleep(2200);
+    K.reset('cat_b'); await K.sleep(400);
+    K.hl(1247,408,1491,457,'Cobrar'); await K.click(1368,432);
+    K.off(); K.show('upsell'); K.step(0); await K.sleep(500);
+    K.hl(537,272,999,466,'O One sugere a versão maior'); await K.to(760,400); await K.sleep(2000);
+    K.hl(650,483,1000,522,'Pergunte ao cliente e responda'); await K.click(736,502);
+    K.show('bebida'); await K.sleep(300); K.hl(537,300,999,345,'E sugere uma bebida'); await K.sleep(1500);
+    await K.click(752,387); K.off(); K.show('pagamento'); K.step(1); await K.sleep(500);
+    K.hl(537,142,985,254,'Clube: telefone do cliente'); await K.to(760,200); await K.sleep(1500);
+    K.hl(549,417,971,548,'Escolha a forma'); await K.click(652,436); await K.sleep(700);
+    K.hl(549,603,860,636,'Toque no valor que o cliente deu'); await K.click(700,619);
+    K.show('troco'); K.step(2); await K.sleep(400);
+    K.zoom(760,480,1.45); K.hl(537,437,985,527,'Troco: R$ 18,01'); await K.to(940,505); await K.sleep(2200);
+    K.hl(537,540,760,562,'CPF na nota? Aqui'); await K.to(650,551); await K.sleep(1600);
+    K.hl(742,576,984,615,'Confirmar pagamento'); await K.to(863,595); await K.sleep(1800); K.unzoom();
   },
   async delivery(K){
-    const cols=$$('.col',K.tela), L=i=>$('.lista',cols[i]);
-    cols.forEach(c=>$('.lista',c).innerHTML='');
-    const upd=()=>cols.forEach(c=>$('[data-cnt]',c).textContent=$('.lista',c).children.length);
-    const mk=(n,src,nome)=>{const d=document.createElement('div');d.className='ped novo';d.innerHTML=`<span class="src${src==='TOTEM'?' tot':''}">${src}</span> #${n}<br>${nome}`;return d};
-    L(1).appendChild(mk(4812,'IFOOD','Ana · 2 itens')); L(2).appendChild(mk(4809,'TOTEM','Balcão · 1 item')); upd();
-    $$('.ped',K.tela).forEach(p=>p.classList.remove('novo'));
-    K.step(0); await K.sleep(700);
-    const p=mk(4815,'IFOOD','Carlos · 3 itens'); L(0).appendChild(p); upd(); await K.sleep(1600);
-    K.step(1);
-    for(const i of [1,2]){ await K.click(p); p.style.opacity='.4'; await K.sleep(200); p.style.opacity='1'; p.classList.remove('novo'); L(i).prepend(p); upd(); await K.sleep(900); }
-    K.step(2); await K.click(p); L(3).prepend(p); upd(); p.insertAdjacentHTML('beforeend','<br><small>🛵 Motoboy: João</small>');
-    await K.sleep(2400);
+    K.reset('monitor_topo'); await K.sleep(400);
+    K.step(0); K.hl(575,190,857,236,'Aba Monitor Delivery'); await K.click(715,212); await K.sleep(700);
+    K.hl(405,425,627,507,'Aceite automático ligado'); await K.to(440,465); await K.sleep(1800);
+    K.hl(865,452,1050,480,'Imprime sozinho'); await K.to(885,466); await K.sleep(1600);
+    K.off(); K.show('monitor_kanban'); K.step(1); await K.sleep(400);
+    K.hl(26,120,385,533,'Em preparo'); await K.to(200,300); await K.sleep(1500);
+    K.hl(57,387,293,420,'Ficou pronto? Toque'); await K.click(175,403); await K.sleep(900);
+    K.step(2); K.hl(396,120,1126,533,'Pronto e Despachado'); await K.to(760,300); await K.sleep(1600);
+    K.hl(1136,120,1497,533,'Entregue'); await K.to(1300,300); await K.sleep(1800);
   },
   async sangria(K){
-    K.fase('botoes'); $$('.campo .v',K.tela).forEach(v=>v.textContent=''); K.step(0); await K.sleep(500);
-    await K.click(K.q('[data-b=sangria]'));
-    K.fase('form'); K.step(1); await K.sleep(400);
-    await K.click(K.q('[data-c=valor]')); await K.type(K.q('[data-c=valor]'),'R$ 200,00',110);
-    await K.click(K.q('[data-c=motivo]')); await K.type(K.q('[data-c=motivo]'),'Depósito no banco',55);
-    await K.click(K.q('[data-b=registrar]'));
-    K.fase('ok'); K.step(2); await K.sleep(2400);
+    K.reset('frente_aberto'); await K.sleep(400);
+    K.step(0); K.hl(831,388,952,426,'Sangria'); await K.click(893,407);
+    K.off(); K.show('sangria'); K.step(1); await K.sleep(500);
+    K.hl(569,194,968,251,'Retirada ou entrada'); await K.to(660,222); await K.sleep(1400);
+    K.hl(569,286,968,332,'Quanto saiu'); await K.click(700,309); await K.sleep(1000);
+    K.hl(569,368,968,411,'Por que saiu'); await K.click(760,389); await K.sleep(1200);
+    K.step(2); K.hl(737,524,967,563,'Registrar sangria'); await K.to(851,543); await K.sleep(2000);
   },
   async fechar(K){
-    const ls=$$('[data-l]',K.tela), dif=K.q('[data-dif]'), cont=K.q('[data-c=contado]');
-    ls.forEach(l=>l.classList.remove('on')); dif.classList.remove('on'); $('.v',cont).textContent='';
-    K.step(0); await K.sleep(500);
-    for(const l of ls){ l.classList.add('on'); await K.sleep(650) }
-    K.step(1); await K.click(cont); await K.type(cont,'R$ 370,00',120);
-    K.step(2); dif.classList.add('on'); await K.sleep(2800);
+    K.reset('frente_aberto'); await K.sleep(400);
+    K.step(0); K.hl(960,385,1141,424,'Fechar caixa'); await K.click(1050,404);
+    K.off(); K.show('fechar'); K.step(1); await K.sleep(500);
+    K.hl(537,165,984,280,'Quem está fechando'); await K.click(760,194); await K.sleep(1200);
+    K.step(2); K.zoom(760,420,1.4); K.hl(537,368,984,425,'Conte antes de ver o esperado'); await K.to(700,396); await K.sleep(2400);
+    K.hl(537,488,985,640,'Cédula por cédula'); await K.to(645,563); await K.sleep(2200); K.unzoom();
   },
-  async dono(K){
-    const its=$$('.menu .it',K.s), fns=$$('.fn',K.s);
-    for(let i=0;i<6;i++){ its.forEach(x=>x.classList.toggle('on',+x.dataset.i===i)); fns.forEach(x=>x.classList.toggle('on',+x.dataset.i===i)); await K.sleep(1500) }
-    its.forEach(x=>x.classList.remove('on')); fns.forEach(x=>x.classList.remove('on')); await K.sleep(400);
+  async inicio(K){
+    K.reset('franq_inicio'); await K.sleep(400);
+    K.hl(8,130,240,410,'Menu do dono'); await K.to(120,260); await K.sleep(1600);
+    K.step(0); K.hl(280,88,1497,150,'Saúde da Loja'); await K.to(1435,119); await K.sleep(1800);
+    K.step(1); K.hl(858,195,1135,252,'Escolha o período'); await K.click(955,237); await K.sleep(1200);
+    K.hl(280,287,1497,413,'Números do período'); await K.sleep(1500);
+    K.step(2); K.hl(280,435,1497,670,'Caixas e delivery do dia'); await K.to(700,520); await K.sleep(1800);
+    K.hl(8,160,240,194,'Caixa: abre o PDV da loja'); await K.click(60,176); await K.sleep(1800);
+  },
+  async estoque(K){
+    K.reset('estoque_config'); await K.sleep(400);
+    K.step(0); K.hl(305,195,865,218,'Loja nova: 3 passos'); await K.to(400,206); await K.sleep(1800);
+    K.hl(1130,422,1472,468,'Confirmar e provisionar'); await K.to(1300,445); await K.sleep(1600);
+    K.off(); K.show('estoque_meu'); K.step(1); await K.sleep(400);
+    K.hl(305,147,1473,540,'Saldo automático'); await K.to(800,300); await K.sleep(1800);
+    K.hl(305,560,1473,660,'Chegou mercadoria'); await K.to(620,635); await K.sleep(1200);
+    K.hl(525,620,718,651,'Registrar compra'); await K.click(620,635); await K.sleep(900);
+    K.hl(304,90,481,129,'Ou Importar NF'); await K.click(393,109); await K.sleep(1200);
+    K.off(); K.show('estoque_contagem'); K.step(2); await K.sleep(400);
+    K.hl(305,256,1473,312,'Conferir aberturas'); await K.click(420,284); await K.sleep(1300);
+    K.hl(305,330,1473,382,'Contagem dos fechados'); await K.click(455,355); await K.sleep(1300);
+    K.hl(305,186,1473,238,'Contagem do mês fecha o custo'); await K.to(505,212); await K.sleep(1800);
+  },
+  async cancelar(K){
+    K.reset('vendas_sessao'); await K.sleep(400);
+    K.step(0); K.hl(14,505,1508,640,'Vendas da Sessão'); await K.to(200,530); await K.sleep(1600);
+    K.zoom(1300,600,1.35); K.hl(898,595,1488,630,'Detalhes, cupom, nota'); await K.to(960,612); await K.sleep(1500);
+    K.step(1); K.hl(1266,597,1358,628,'Esqueceu o CPF? Aqui'); await K.click(1310,612); await K.sleep(1300);
+    K.hl(1369,597,1484,628,'Cancelar'); await K.click(1425,612); await K.sleep(1500); K.unzoom();
+    K.off(); K.show('franq_relatorios'); K.step(2); await K.sleep(400);
+    K.hl(391,155,515,184,'Relatórios › Cancelamentos'); await K.click(452,169); await K.sleep(2200);
+  },
+  async produtos(K){
+    K.reset('franq_produtos'); await K.sleep(400);
+    K.step(0); K.hl(305,120,1473,195,'Rede e produtos locais'); await K.to(700,160); await K.sleep(1800);
+    K.step(1); K.hl(1075,378,1300,670,'Preço desta unidade'); await K.to(1120,459); await K.sleep(1400);
+    K.zoom(1230,470,1.4); K.hl(1172,443,1292,476,'Alterar preço'); await K.click(1231,459); await K.sleep(1800); K.unzoom();
+    K.step(2); K.hl(618,205,868,236,'Adicionar produto local'); await K.click(743,220); await K.sleep(1800);
+  },
+  async relatorios(K){
+    K.reset('franq_relatorios'); await K.sleep(400);
+    K.step(0); K.hl(232,80,380,110,'Vendas por período'); await K.click(306,95); await K.sleep(1100);
+    K.hl(387,80,562,110,'Mais vendidos'); await K.click(474,95); await K.sleep(1100);
+    K.step(1); K.hl(554,117,694,147,'Auditoria de caixa'); await K.click(624,131); await K.sleep(1100);
+    K.hl(379,117,548,147,'Formas de pagamento'); await K.click(463,131); await K.sleep(1100);
+    K.step(2); K.hl(391,155,515,184,'Cancelamentos'); await K.click(452,169); await K.sleep(1100);
+    K.hl(168,232,955,300,'Período e marca'); await K.click(360,276); await K.sleep(1800);
   }
 };
-function setTotal(el,v){ el.textContent=v; el.classList.add('flash'); setTimeout(()=>el.classList.remove('flash'),400) }
 
-/* ---------- início ---------- */
+/* aquece as imagens */
+const imgs=$$('img'); let n=0; window.__site={stops:slides.length,ready:false,go:i=>go(i),next:d=>next(d)};
+const pronto=()=>{ window.__site.ready=true };
+imgs.forEach(im=>{ if(im.complete) n++; else im.addEventListener('load',()=>{ if(++n===imgs.length) pronto() },{once:true}) });
+if(n===imgs.length) pronto(); setTimeout(pronto,6000);
 const h=parseInt((location.hash.match(/\d+/)||[1])[0],10);
-window.__site={stops:slides.length,ready:false,go:i=>go(i),next:d=>next(d)};
-requestAnimationFrame(()=>{ go(isNaN(h)?0:h-1); window.__site.ready=true; });
+go(isNaN(h)?0:h-1);
 })();
 </script>
 </body>
