@@ -71,7 +71,7 @@ h2{font-size:clamp(28px,4.4vw,66px)}
 .etapas li.ok{border-color:var(--line);color:var(--k)}
 .etapas li.ok:before{content:"✓";border-color:var(--ok);color:var(--ok)}
 .palco{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
-.shot{position:relative;aspect-ratio:1536/674;width:min(100%, calc((100vh - 57px - 170px) * 2.279));border:3px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:8px 8px 0 var(--line);background:#fff}
+.shot{position:relative;aspect-ratio:1536/674;width:100%;flex:none;border:3px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:8px 8px 0 var(--line);background:#fff}
 .cam{position:absolute;inset:0;transition:transform .8s var(--ease);transform-origin:50% 50%}
 .cam img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s}
 .cam img.on{opacity:1}
@@ -125,6 +125,17 @@ kbd{display:inline-block;border:2px solid var(--line);border-bottom-width:5px;bo
   .cab .sp{display:none}
   .topbar .sec{display:none}
 }
+body.video .topbar,body.video .bar,body.video .dica,body.video .cola{display:none!important}
+body.video .deck{inset:0 0 96px 0}
+body.video .slide{padding:18px 28px 10px}
+.legenda{display:none}
+body.video .legenda{display:flex;position:fixed;left:0;right:0;bottom:0;height:96px;background:var(--k);color:var(--w);align-items:center;justify-content:center;text-align:center;padding:0 40px;font:700 23px/1.3 var(--font);border-top:4px solid var(--y)}
+.vids{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(10px,1.4vw,18px);margin-top:clamp(12px,2vw,24px)}
+.vid{padding:10px;display:flex;flex-direction:column;gap:8px}
+.vid video{width:100%;aspect-ratio:16/9;border-radius:12px;border:2px solid var(--line);background:#000}
+.vid b{font-weight:900;text-transform:uppercase;font-size:clamp(12px,1.2vw,16px)}
+.vid span{font-weight:600;color:var(--mut);font-size:clamp(11px,1vw,13px)}
+@media (max-width:860px){.vids{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){*{transition-duration:.01ms!important;animation:none!important}}
 </style>
 </head>
@@ -284,6 +295,27 @@ kbd{display:inline-block;border:2px solid var(--line);border-bottom-width:5px;bo
   </div>
 </section>
 
+<!-- VIDEOS -->
+<section class="slide" data-sec="Vídeos do dono" data-cola="Para rever em casa: cada tela que vocês viram tem um vídeo curto, narrado, mostrando a tela de verdade. Toquem no vídeo para assistir.">
+  <div class="wrap in">
+    <div class="kicker">Para rever com calma</div>
+    <h2>Vídeos <span class="hl-y">narrados</span></h2>
+    <div class="vids">
+<div class="vid card"><video src="assets/video/abrir.mp4" poster="assets/video/abrir.jpg" controls preload="none"></video><b>1 · Abrir caixa</b></div>
+<div class="vid card"><video src="assets/video/vender.mp4" poster="assets/video/vender.jpg" controls preload="none"></video><b>2 · Vender</b></div>
+<div class="vid card"><video src="assets/video/cobrar.mp4" poster="assets/video/cobrar.jpg" controls preload="none"></video><b>3 · Cobrar</b></div>
+<div class="vid card"><video src="assets/video/delivery.mp4" poster="assets/video/delivery.jpg" controls preload="none"></video><b>4 · Delivery</b></div>
+<div class="vid card"><video src="assets/video/sangria.mp4" poster="assets/video/sangria.jpg" controls preload="none"></video><b>5 · Sangria</b></div>
+<div class="vid card"><video src="assets/video/fechar.mp4" poster="assets/video/fechar.jpg" controls preload="none"></video><b>6 · Fechar caixa</b></div>
+<div class="vid card"><video src="assets/video/inicio.mp4" poster="assets/video/inicio.jpg" controls preload="none"></video><b>Início do dono</b></div>
+<div class="vid card"><video src="assets/video/estoque.mp4" poster="assets/video/estoque.jpg" controls preload="none"></video><b>Estoque</b></div>
+<div class="vid card"><video src="assets/video/cancelar.mp4" poster="assets/video/cancelar.jpg" controls preload="none"></video><b>Cancelar e nota</b></div>
+<div class="vid card"><video src="assets/video/produtos.mp4" poster="assets/video/produtos.jpg" controls preload="none"></video><b>Produtos e preço</b></div>
+<div class="vid card"><video src="assets/video/relatorios.mp4" poster="assets/video/relatorios.jpg" controls preload="none"></video><b>Relatórios</b></div>
+    </div>
+  </div>
+</section>
+
 <!-- FIM -->
 <section class="slide fim" data-sec="Fim" data-cola="Para terminar: dentro do One tem aulas curtas de cada tela. Apontem a câmera do celular para o código e guardem. Perguntas?">
   <div class="in">
@@ -296,13 +328,14 @@ kbd{display:inline-block;border:2px solid var(--line);border-bottom-width:5px;bo
 </section>
 
 </div>
+<div class="legenda" id="legenda"></div>
 <div class="cola" id="cola"><b>O que falar</b><span id="colaTxt"></span></div>
 
 <script>
 (function(){
 "use strict";
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
-const W=1536,H=674;
+const W=1536,H=674; const VIDEO=new URLSearchParams(location.search).get('video'); if(VIDEO) document.body.classList.add('video');
 const slides=$$('.slide'); let cur=-1, token=0, auto=null, colaOn=/cola/.test(location.hash);
 
 /* monta as telas reais */
@@ -323,7 +356,8 @@ function go(i){
   $('#colaTxt').textContent=s.dataset.cola||'';
   try{history.replaceState(null,'','#'+(i+1)+(colaOn?'-cola':''))}catch(e){}
   if(s.contains($('#seis'))) seis(token);
-  const sc=SCENES[s.dataset.scene]; if(sc) run(sc,s,token);
+  if(SCRIPT[s.dataset.scene]) run(s.dataset.scene,s,token);
+  fit();
 }
 function next(d){go(cur+d)}
 document.addEventListener('keydown',e=>{
@@ -334,155 +368,125 @@ document.addEventListener('keydown',e=>{
   else if(e.key==='a'||e.key==='A'){ if(auto){clearInterval(auto);auto=null} else auto=setInterval(()=>{cur<slides.length-1?next(1):go(0)},22000) }
   else if(e.key==='f'||e.key==='F'){ document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen().catch(()=>{}) }
 });
-document.addEventListener('click',e=>{ if(e.target.closest('.cola')) return; next(e.clientX/innerWidth<.25?-1:1) });
+document.addEventListener('click',e=>{ if(VIDEO||e.target.closest('.cola,.vids,video')) return; next(e.clientX/innerWidth<.25?-1:1) });
 let tx=null; document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
 document.addEventListener('touchend',e=>{ if(tx==null) return; const dx=e.changedTouches[0].clientX-tx; if(Math.abs(dx)>50) next(dx<0?1:-1); tx=null },{passive:true});
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 async function seis(t){ const sp=$$('#seis span'); sp.forEach((el,k)=>el.style.transitionDelay=(.3+k*.08)+'s'); await wait(1400);
   for(;;){ for(const el of sp){ if(t!==token) return; sp.forEach(x=>x.classList.remove('on')); el.classList.add('on'); await wait(700) } } }
 
-/* motor: coordenadas no tamanho do print (1536 x 674) */
-async function run(scene,s,t){
-  const sh=$('[data-shot]',s), cam=$('.cam',sh), cur=$('.cur',sh), spot=$('.spot',sh), cap=$('.cap',sh);
-  const px=x=>x/W*100+'%', py=y=>y/H*100+'%';
-  const K={
-    sleep:ms=>new Promise((res,rej)=>setTimeout(()=>t===token?res():rej('stop'),ms)),
-    show(k){ $$('img',cam).forEach(im=>im.classList.toggle('on',im.dataset.k===k)) },
-    async to(x,y){ cur.style.left=px(x); cur.style.top=py(y); await K.sleep(800) },
-    async click(x,y){ await K.to(x,y); cur.classList.remove('clk'); void cur.offsetWidth; cur.classList.add('clk'); await K.sleep(450) },
-    hl(x1,y1,x2,y2,txt){ spot.style.left=px(x1-6); spot.style.top=py(y1-6); spot.style.width=px(x2-x1+12); spot.style.height=py(y2-y1+12); spot.classList.add('on');
-      if(txt){ cap.textContent=txt; const below=y2+60<H; cap.style.left=px(Math.min(Math.max(x1,10),W-560)); cap.style.top=below?py(y2+16):py(Math.max(y1-62,6)); cap.classList.add('on') } else cap.classList.remove('on') },
-    off(){ spot.classList.remove('on'); cap.classList.remove('on') },
-    zoom(x,y,z){ cam.style.transformOrigin=px(x)+' '+py(y); cam.style.transform='scale('+z+')' },
-    unzoom(){ cam.style.transform='none' },
-    step(n){ $$('.etapas li',s).forEach((li,k)=>{li.classList.toggle('on',k===n);li.classList.toggle('ok',k<n)}) },
-    reset(first){ K.off(); K.unzoom(); K.show(first); K.step(-1); cur.style.left='70%'; cur.style.top='80%' }
-  };
-  try{ for(;;){ await scene(K); await K.sleep(1200) } }catch(e){ if(e!=='stop') console.error(e) }
-}
-
-const SCENES={
-  async abrir(K){
-    K.reset('caixa_fechado'); await K.sleep(500);
-    K.step(0); K.hl(25,320,1497,390,'Caixa fechado: nada vende'); await K.sleep(1800);
-    K.hl(1322,80,1491,120,'Toque em Abrir caixa'); await K.click(1405,100); await K.sleep(300);
-    K.off(); K.show('abrir_dialog'); K.step(1); await K.sleep(700);
-    K.hl(537,145,985,190,'Quem está abrindo'); await K.to(760,167); await K.sleep(1300);
-    K.zoom(760,400,1.35); K.hl(537,230,985,460,'Conte cédula por cédula'); await K.to(645,331); await K.sleep(2600);
-    K.unzoom(); K.off(); K.show('frente_aberto'); K.step(2); await K.sleep(500);
-    K.hl(28,330,345,375,'Caixa Aberto: pode vender'); await K.to(200,352); await K.sleep(2600);
-  },
-  async vender(K){
-    K.reset('cat_a'); await K.sleep(500);
-    K.step(0); K.hl(28,188,1056,232,'Busque pelo nome ou código'); await K.click(300,210); await K.sleep(1200);
-    K.hl(587,243,715,272,'Ou toque na categoria'); await K.click(651,258); await K.sleep(900);
-    K.step(1); K.hl(289,289,539,360,'Toque no produto'); await K.click(375,317);
-    K.show('cat_b'); await K.sleep(300);
-    K.hl(1105,185,1490,236,'Foi para o carrinho'); await K.to(1180,210); await K.sleep(1600);
-    K.step(2); K.zoom(1300,250,1.5); K.hl(1324,194,1358,227,'Mais um? Use o +'); await K.click(1340,210); await K.sleep(1500);
-    K.hl(1100,338,1497,372,'O total soma sozinho'); await K.to(1440,354); await K.sleep(2000); K.unzoom();
-  },
-  async cobrar(K){
-    K.reset('cat_b'); await K.sleep(400);
-    K.hl(1247,408,1491,457,'Cobrar'); await K.click(1368,432);
-    K.off(); K.show('upsell'); K.step(0); await K.sleep(500);
-    K.hl(537,272,999,466,'O One sugere a versão maior'); await K.to(760,400); await K.sleep(2000);
-    K.hl(650,483,1000,522,'Pergunte ao cliente e responda'); await K.click(736,502);
-    K.show('bebida'); await K.sleep(300); K.hl(537,300,999,345,'E sugere uma bebida'); await K.sleep(1500);
-    await K.click(752,387); K.off(); K.show('pagamento'); K.step(1); await K.sleep(500);
-    K.hl(537,142,985,254,'Clube: telefone do cliente'); await K.to(760,200); await K.sleep(1500);
-    K.hl(549,417,971,548,'Escolha a forma'); await K.click(652,436); await K.sleep(700);
-    K.hl(549,603,860,636,'Toque no valor que o cliente deu'); await K.click(700,619);
-    K.show('troco'); K.step(2); await K.sleep(400);
-    K.zoom(760,480,1.45); K.hl(537,437,985,527,'Troco: R$ 18,01'); await K.to(940,505); await K.sleep(2200);
-    K.hl(537,540,760,562,'CPF na nota? Aqui'); await K.to(650,551); await K.sleep(1600);
-    K.hl(742,576,984,615,'Confirmar pagamento'); await K.to(863,595); await K.sleep(1800); K.unzoom();
-  },
-  async delivery(K){
-    K.reset('monitor_topo'); await K.sleep(400);
-    K.step(0); K.hl(575,190,857,236,'Aba Monitor Delivery'); await K.click(715,212); await K.sleep(700);
-    K.hl(405,425,627,507,'Aceite automático ligado'); await K.to(440,465); await K.sleep(1800);
-    K.hl(865,452,1050,480,'Imprime sozinho'); await K.to(885,466); await K.sleep(1600);
-    K.off(); K.show('monitor_kanban'); K.step(1); await K.sleep(400);
-    K.hl(26,120,385,533,'Em preparo'); await K.to(200,300); await K.sleep(1500);
-    K.hl(57,387,293,420,'Ficou pronto? Toque'); await K.click(175,403); await K.sleep(900);
-    K.step(2); K.hl(396,120,1126,533,'Pronto e Despachado'); await K.to(760,300); await K.sleep(1600);
-    K.hl(1136,120,1497,533,'Entregue'); await K.to(1300,300); await K.sleep(1800);
-  },
-  async sangria(K){
-    K.reset('frente_aberto'); await K.sleep(400);
-    K.step(0); K.hl(831,388,952,426,'Sangria'); await K.click(893,407);
-    K.off(); K.show('sangria'); K.step(1); await K.sleep(500);
-    K.hl(569,194,968,251,'Retirada ou entrada'); await K.to(660,222); await K.sleep(1400);
-    K.hl(569,286,968,332,'Quanto saiu'); await K.click(700,309); await K.sleep(1000);
-    K.hl(569,368,968,411,'Por que saiu'); await K.click(760,389); await K.sleep(1200);
-    K.step(2); K.hl(737,524,967,563,'Registrar sangria'); await K.to(851,543); await K.sleep(2000);
-  },
-  async fechar(K){
-    K.reset('frente_aberto'); await K.sleep(400);
-    K.step(0); K.hl(960,385,1141,424,'Fechar caixa'); await K.click(1050,404);
-    K.off(); K.show('fechar'); K.step(1); await K.sleep(500);
-    K.hl(537,165,984,280,'Quem está fechando'); await K.click(760,194); await K.sleep(1200);
-    K.step(2); K.zoom(760,420,1.4); K.hl(537,368,984,425,'Conte antes de ver o esperado'); await K.to(700,396); await K.sleep(2400);
-    K.hl(537,488,985,640,'Cédula por cédula'); await K.to(645,563); await K.sleep(2200); K.unzoom();
-  },
-  async inicio(K){
-    K.reset('franq_inicio'); await K.sleep(400);
-    K.hl(8,130,240,410,'Menu do dono'); await K.to(120,260); await K.sleep(1600);
-    K.step(0); K.hl(280,88,1497,150,'Saúde da Loja'); await K.to(1435,119); await K.sleep(1800);
-    K.step(1); K.hl(858,195,1135,252,'Escolha o período'); await K.click(955,237); await K.sleep(1200);
-    K.hl(280,287,1497,413,'Números do período'); await K.sleep(1500);
-    K.step(2); K.hl(280,435,1497,670,'Caixas e delivery do dia'); await K.to(700,520); await K.sleep(1800);
-    K.hl(8,160,240,194,'Caixa: abre o PDV da loja'); await K.click(60,176); await K.sleep(1800);
-  },
-  async estoque(K){
-    K.reset('estoque_config'); await K.sleep(400);
-    K.step(0); K.hl(305,195,865,218,'Loja nova: 3 passos'); await K.to(400,206); await K.sleep(1800);
-    K.hl(1130,422,1472,468,'Confirmar e provisionar'); await K.to(1300,445); await K.sleep(1600);
-    K.off(); K.show('estoque_meu'); K.step(1); await K.sleep(400);
-    K.hl(305,147,1473,540,'Saldo automático'); await K.to(800,300); await K.sleep(1800);
-    K.hl(305,560,1473,660,'Chegou mercadoria'); await K.to(620,635); await K.sleep(1200);
-    K.hl(525,620,718,651,'Registrar compra'); await K.click(620,635); await K.sleep(900);
-    K.hl(304,90,481,129,'Ou Importar NF'); await K.click(393,109); await K.sleep(1200);
-    K.off(); K.show('estoque_contagem'); K.step(2); await K.sleep(400);
-    K.hl(305,256,1473,312,'Conferir aberturas'); await K.click(420,284); await K.sleep(1300);
-    K.hl(305,330,1473,382,'Contagem dos fechados'); await K.click(455,355); await K.sleep(1300);
-    K.hl(305,186,1473,238,'Contagem do mês fecha o custo'); await K.to(505,212); await K.sleep(1800);
-  },
-  async cancelar(K){
-    K.reset('vendas_sessao'); await K.sleep(400);
-    K.step(0); K.hl(14,505,1508,640,'Vendas da Sessão'); await K.to(200,530); await K.sleep(1600);
-    K.zoom(1300,600,1.35); K.hl(898,595,1488,630,'Detalhes, cupom, nota'); await K.to(960,612); await K.sleep(1500);
-    K.step(1); K.hl(1266,597,1358,628,'Esqueceu o CPF? Aqui'); await K.click(1310,612); await K.sleep(1300);
-    K.hl(1369,597,1484,628,'Cancelar'); await K.click(1425,612); await K.sleep(1500); K.unzoom();
-    K.off(); K.show('franq_relatorios'); K.step(2); await K.sleep(400);
-    K.hl(391,155,515,184,'Relatórios › Cancelamentos'); await K.click(452,169); await K.sleep(2200);
-  },
-  async produtos(K){
-    K.reset('franq_produtos'); await K.sleep(400);
-    K.step(0); K.hl(305,120,1473,195,'Rede e produtos locais'); await K.to(700,160); await K.sleep(1800);
-    K.step(1); K.hl(1075,378,1300,670,'Preço desta unidade'); await K.to(1120,459); await K.sleep(1400);
-    K.zoom(1230,470,1.4); K.hl(1172,443,1292,476,'Alterar preço'); await K.click(1231,459); await K.sleep(1800); K.unzoom();
-    K.step(2); K.hl(618,205,868,236,'Adicionar produto local'); await K.click(743,220); await K.sleep(1800);
-  },
-  async relatorios(K){
-    K.reset('franq_relatorios'); await K.sleep(400);
-    K.step(0); K.hl(232,80,380,110,'Vendas por período'); await K.click(306,95); await K.sleep(1100);
-    K.hl(387,80,562,110,'Mais vendidos'); await K.click(474,95); await K.sleep(1100);
-    K.step(1); K.hl(554,117,694,147,'Auditoria de caixa'); await K.click(624,131); await K.sleep(1100);
-    K.hl(379,117,548,147,'Formas de pagamento'); await K.click(463,131); await K.sleep(1100);
-    K.step(2); K.hl(391,155,515,184,'Cancelamentos'); await K.click(452,169); await K.sleep(1100);
-    K.hl(168,232,955,300,'Período e marca'); await K.click(360,276); await K.sleep(1800);
-  }
+/* motor: coordenadas no tamanho do print (1536 x 674). Cada passo = uma coisa só. */
+const MOVE=1100, DWELL=3600;
+const SCRIPT={
+  abrir:[
+    {step:0,show:'caixa_fechado',hl:[1322,80,1491,120],cap:'Toque em Abrir caixa',click:[1405,100],say:'O caixa começa fechado: nada vende e o delivery não entra. Toque em Abrir caixa.'},
+    {step:1,show:'abrir_dialog',hl:[537,230,985,460],cap:'Conte a gaveta, cédula por cédula',zoom:[760,380,1.3],to:[645,331],say:'Confira seu nome, conte a gaveta cédula por cédula e digite quantas tem de cada.'},
+    {step:2,show:'frente_aberto',hl:[28,330,345,375],cap:'Caixa Aberto: pode vender',to:[200,352],say:'Caixa Aberto, em verde. Já pode vender.'}
+  ],
+  vender:[
+    {step:0,show:'cat_a',hl:[28,188,1056,272],cap:'Busque ou escolha a categoria',to:[651,258],say:'Busque pelo nome, pelo código, ou toque na categoria.'},
+    {step:1,show:'cat_a',hl:[289,289,539,360],cap:'Toque no produto',click:[375,317],then:'cat_b',say:'Toque no produto e ele vai para o carrinho.'},
+    {step:2,show:'cat_b',hl:[1105,185,1490,236],cap:'Mais um? Use o +',to:[1340,210],say:'Mais um? Use o mais no carrinho, sem tocar de novo no produto.'},
+    {step:2,show:'cat_b',hl:[1100,338,1497,372],cap:'O total soma sozinho',to:[1440,354],say:'O total soma sozinho. Leia em voz alta para o cliente.'}
+  ],
+  cobrar:[
+    {step:0,show:'upsell',hl:[537,272,999,522],cap:'O One sugere: pergunte ao cliente',to:[736,502],say:'Em Cobrar, o sistema sugere a versão maior e uma bebida. Pergunte ao cliente.'},
+    {step:1,show:'pagamento',hl:[549,417,971,548],cap:'Escolha a forma',click:[652,436],say:'Escolha a forma: dinheiro, cartão, Pix ou ticket.'},
+    {step:2,show:'troco',hl:[537,437,985,527],cap:'O troco aparece em verde',zoom:[760,500,1.3],to:[940,505],say:'No dinheiro, toque no valor recebido. O troco aparece em verde.'},
+    {step:2,show:'troco',hl:[742,576,984,615],cap:'Confirmar pagamento',zoom:[760,500,1.3],to:[863,595],say:'CPF na nota vai antes. Depois, Confirmar pagamento.'}
+  ],
+  delivery:[
+    {step:0,show:'monitor_topo',hl:[405,425,627,507],cap:'Aceite automático: o pedido entra sozinho',to:[440,465],say:'No Monitor Delivery, com o aceite automático ligado, iFood, cardápio, app e totem entram sozinhos.'},
+    {step:1,show:'monitor_kanban',hl:[26,120,385,533],cap:'Em preparo. Ficou pronto? Toque',to:[175,403],say:'O pedido nasce em Em preparo. Ficou pronto? Toque em Pronto.'},
+    {step:2,show:'monitor_kanban',hl:[396,120,1497,533],cap:'Pronto, Despachado, Entregue',to:[760,300],say:'Depois vai para Despachado e Entregue. Deixe o Monitor aberto o turno todo.'}
+  ],
+  sangria:[
+    {step:0,show:'frente_aberto',hl:[831,388,952,426],cap:'Toque em Sangria',click:[893,407],say:'Gaveta cheia? Toque em Sangria.'},
+    {step:1,show:'sangria',hl:[569,280,968,415],cap:'Valor e motivo',to:[760,309],say:'Digite o valor e escolha o motivo. Para pôr dinheiro, use Suprimento.'},
+    {step:2,show:'sangria',hl:[737,524,967,563],cap:'Registrar sangria',to:[851,543],say:'Registre na hora: o valor é descontado no fechamento.'}
+  ],
+  fechar:[
+    {step:0,show:'frente_aberto',hl:[960,385,1141,424],cap:'Toque em Fechar caixa',click:[1050,404],say:'No fim do turno, toque em Fechar caixa.'},
+    {step:1,show:'fechar',hl:[537,165,984,280],cap:'Quem está fechando',to:[760,194],say:'Escolha quem está fechando.'},
+    {step:2,show:'fechar',hl:[537,368,984,425],cap:'Conte antes de ver o esperado',zoom:[760,420,1.3],to:[700,396],say:'Conte a gaveta antes de ver o valor esperado. Assim ninguém ajusta para bater.'}
+  ],
+  inicio:[
+    {step:-1,show:'franq_inicio',hl:[8,70,240,410],cap:'Menu do dono',to:[120,260],say:'Esta é a tela do franqueado. Você entra no mesmo endereço, com seu e-mail.'},
+    {step:0,show:'franq_inicio',hl:[280,88,1497,150],cap:'Saúde da Loja',to:[1435,119],say:'No topo, a Saúde da Loja mostra o que está parado ou pendente.'},
+    {step:1,show:'franq_inicio',hl:[858,195,1135,252],cap:'Escolha o período',to:[955,237],say:'Escolha o período: hoje, sete dias, trinta dias ou o mês.'},
+    {step:2,show:'franq_inicio',hl:[280,435,1497,670],cap:'Caixas e delivery do dia',to:[700,520],say:'Embaixo, os caixas e os pedidos de delivery do dia.'},
+    {step:2,show:'franq_inicio',hl:[8,160,240,194],cap:'Caixa: abre o PDV da loja',click:[60,176],say:'E o botão Caixa abre o PDV da loja.'}
+  ],
+  estoque:[
+    {step:0,show:'estoque_config',hl:[305,195,865,218],cap:'Loja nova: 3 passos',to:[400,206],say:'Loja nova configura o estoque em três passos: modelo de negócio, freezers, e rota e horário.'},
+    {step:1,show:'estoque_meu',hl:[305,147,1473,540],cap:'Saldo automático',to:[800,300],say:'Depois, o saldo é automático: cai ao abrir embalagem e sobe ao receber.'},
+    {step:1,show:'estoque_meu',hl:[305,560,1473,660],cap:'Chegou mercadoria',to:[620,635],say:'Chegou mercadoria? Registrar compra, ou Importar NF com a nota do fornecedor.'},
+    {step:2,show:'estoque_contagem',hl:[305,256,1473,382],cap:'Conferir aberturas e contar fechados',to:[420,284],say:'Confira as aberturas e conte os fechados.'},
+    {step:2,show:'estoque_contagem',hl:[305,186,1473,238],cap:'Contagem do mês: base do custo',to:[505,212],say:'A contagem do mês é a base do custo da loja.'}
+  ],
+  cancelar:[
+    {step:0,show:'vendas_sessao',hl:[14,505,1508,640],cap:'Vendas da Sessão',to:[200,530],say:'As vendas do turno ficam em Vendas da Sessão, embaixo do caixa.'},
+    {step:0,show:'vendas_sessao',hl:[898,595,1262,630],cap:'Detalhes, cupom e nota',zoom:[1400,600,1.35],to:[960,612],say:'Em cada venda: detalhes, cupom e emitir a nota.'},
+    {step:1,show:'vendas_sessao',hl:[1266,597,1358,628],cap:'Esqueceu o CPF? Aqui',zoom:[1400,600,1.35],to:[1310,612],say:'Esqueceu o CPF? Toque em mais CPF ou CNPJ, na linha.'},
+    {step:1,show:'vendas_sessao',hl:[1369,597,1484,628],cap:'Cancelar',zoom:[1400,600,1.35],to:[1425,612],say:'Cancelar é o botão vermelho, e fica no nome de quem cancelou.'},
+    {step:2,show:'franq_relatorios',hl:[391,155,515,184],cap:'Relatórios › Cancelamentos',to:[452,169],say:'O dono confere tudo em Relatórios, Cancelamentos.'}
+  ],
+  produtos:[
+    {step:0,show:'franq_produtos',hl:[305,120,1473,195],cap:'Rede e produtos locais',to:[700,160],say:'Em Produtos, o catálogo da rede aparece junto com os produtos locais.'},
+    {step:1,show:'franq_produtos',hl:[1075,378,1160,670],cap:'Preço desta unidade',to:[1120,459],say:'A coluna Preço desta unidade é o que sua loja cobra.'},
+    {step:1,show:'franq_produtos',hl:[1172,443,1292,476],cap:'Alterar preço: só na sua loja',zoom:[1230,470,1.3],click:[1231,459],say:'Alterar preço muda só na sua loja. O fiscal continua com a franqueadora.'},
+    {step:2,show:'franq_produtos',hl:[618,205,868,236],cap:'Adicionar produto local',to:[743,220],say:'Produto só seu entra em Adicionar produto local.'}
+  ],
+  relatorios:[
+    {step:-1,show:'franq_relatorios',hl:[140,80,930,186],cap:'Vendas, Operação e Fiscal',to:[600,130],say:'Os relatórios têm três linhas: vendas, operação e fiscal.'},
+    {step:0,show:'franq_relatorios',hl:[232,80,562,110],cap:'Por período e mais vendidos',to:[474,95],say:'Em vendas, comece por período e mais vendidos.'},
+    {step:1,show:'franq_relatorios',hl:[554,117,694,147],cap:'Auditoria de caixa',to:[624,131],say:'Em operação, a Auditoria de caixa.'},
+    {step:2,show:'franq_relatorios',hl:[391,155,515,184],cap:'Cancelamentos',to:[452,169],say:'Em fiscal, os Cancelamentos.'},
+    {step:2,show:'franq_relatorios',hl:[168,232,955,300],cap:'Escolha período e marca',to:[360,276],say:'Antes de ler, escolha o período e a marca.'}
+  ]
 };
 
+async function run(name,s,t){
+  const sh=$('[data-shot]',s), cam=$('.cam',sh), cur=$('.cur',sh), spot=$('.spot',sh), cap=$('.cap',sh);
+  const sub=$('#legenda');
+  const px=x=>x/W*100+'%', py=y=>y/H*100+'%';
+  const sleep=ms=>new Promise((res,rej)=>setTimeout(()=>t===token?res():rej('stop'),ms));
+  const show=k=>$$('img',cam).forEach(im=>im.classList.toggle('on',im.dataset.k===k));
+  const step=n=>$$('.etapas li',s).forEach((li,k)=>{li.classList.toggle('on',k===n);li.classList.toggle('ok',k<n)});
+  function hl(b,txt){ const [x1,y1,x2,y2]=b; spot.style.left=px(x1-6); spot.style.top=py(y1-6); spot.style.width=px(x2-x1+12); spot.style.height=py(y2-y1+12); spot.classList.add('on');
+    cap.classList.remove('on'); cap.textContent=txt; const below=y2+70<H; cap.style.left=px(Math.min(Math.max(x1,10),W-620)); cap.style.top=below?py(y2+18):py(Math.max(y1-72,6)); setTimeout(()=>cap.classList.add('on'),250) }
+  const steps=SCRIPT[name]; const dur=(window.__DUR&&window.__DUR[name])||null;
+  try{ for(;;){
+    spot.classList.remove('on'); cap.classList.remove('on'); cam.style.transform='none'; step(-1); show(steps[0].show); cur.style.left='72%'; cur.style.top='82%';
+    if(sub) sub.textContent='';
+    const T0=performance.now(); window.__marks=[]; await sleep(VIDEO?500:700);
+    for(let i=0;i<steps.length;i++){
+      const p=steps[i]; const t0=performance.now(); window.__marks.push((t0-T0)/1000);
+      if(sub) sub.textContent=p.say||'';
+      if(p.show) show(p.show);
+      step(p.step);
+      if(p.zoom){ cam.style.transformOrigin=px(p.zoom[0])+' '+py(p.zoom[1]); cam.style.transform='scale('+p.zoom[2]+')' } else cam.style.transform='none';
+      hl(p.hl,p.cap);
+      const tgt=p.click||p.to; if(tgt){ cur.style.left=px(tgt[0]); cur.style.top=py(tgt[1]); }
+      await sleep(MOVE);
+      if(p.click){ cur.classList.remove('clk'); void cur.offsetWidth; cur.classList.add('clk'); await sleep(500); if(p.then) show(p.then) }
+      const want=dur?Math.max(dur[i]+250, MOVE+(p.click?500:0)+300):DWELL+MOVE+(p.click?500:0);
+      const gone=performance.now()-t0; if(want>gone) await sleep(want-gone);
+    }
+    if(VIDEO){ window.__fim=true; await sleep(700); spot.classList.remove('on'); cap.classList.remove('on'); return }
+    await sleep(1500);
+  } }catch(e){ if(e!=='stop') console.error(e) }
+}
+
+function fit(){ $$('.palco').forEach(p=>{ const sh=p.firstElementChild; if(innerWidth<860&&!VIDEO){sh.style.width='100%';return} const w=Math.min(p.clientWidth, p.clientHeight*W/H); sh.style.width=Math.floor(w)+'px'; }) }
+addEventListener('resize',fit);
 /* aquece as imagens */
 const imgs=$$('img'); let n=0; window.__site={stops:slides.length,ready:false,go:i=>go(i),next:d=>next(d)};
 const pronto=()=>{ window.__site.ready=true };
 imgs.forEach(im=>{ if(im.complete) n++; else im.addEventListener('load',()=>{ if(++n===imgs.length) pronto() },{once:true}) });
 if(n===imgs.length) pronto(); setTimeout(pronto,6000);
-const h=parseInt((location.hash.match(/\d+/)||[1])[0],10);
-go(isNaN(h)?0:h-1);
+if(VIDEO){ const idx=slides.findIndex(s=>s.dataset.scene===VIDEO); window.__comecar=()=>go(idx); fit(); }
+else { const h=parseInt((location.hash.match(/\d+/)||[1])[0],10); go(isNaN(h)?0:h-1); }
 })();
 </script>
 </body>
